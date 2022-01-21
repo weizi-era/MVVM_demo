@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="wallPager"
+            type="com.zjw.mvvm_demo.bean.WallPaperResponse.Res.Vertical" />
+
+        <variable
+            name="click"
+            type="com.zjw.mvvm_demo.WallPaperAdapter.ClickBinding" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.zjw.mvvm_demo.CustomImageView
+            android:id="@+id/biYing"
+            networkUrl="@{wallPager.img}"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_margin="5dp"
+            android:onClick="@{() -> click.itemClick(wallPager,biYing)}"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/roundImageStyle" />
+
+    </LinearLayout>
+</layout>
