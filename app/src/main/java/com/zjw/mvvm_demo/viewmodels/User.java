@@ -3,7 +3,7 @@ package com.zjw.mvvm_demo.viewmodels;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-
+import com.zjw.mvvm_demo.BR;
 
 
 public class User extends BaseObservable {
@@ -22,7 +22,7 @@ public class User extends BaseObservable {
 
     public void setUsername(String username) {
         this.username = username;
-        //notifyPropertyChanged(BR.username);
+        notifyPropertyChanged(BR.username);
     }
 
     @Bindable
@@ -32,6 +32,6 @@ public class User extends BaseObservable {
 
     public void setPassword(String password) {
         this.password = password;
-        //notifyPropertyChanged(BR.password);
+        notifyPropertyChanged(BR.password);
     }
 }

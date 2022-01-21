@@ -35,7 +35,7 @@
                 app:toolbarId="@id/toolbar">
 
                 <com.zjw.mvvm_demo.CustomImageView
-                    biyingUrl="@{viewModel.biYing.biYings.get(2).url}"
+                    biyingUrl="@{viewModel.biYing.images.get(2).url}"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="fitXY"/>

@@ -9,6 +9,7 @@ import androidx.room.Room;
 import com.tencent.mmkv.MMKV;
 import com.zjw.mvvm_demo.db.AppDatabase;
 import com.zjw.mvvm_demo.network.NetworkApi;
+import com.zjw.mvvm_demo.utils.MVUtils;
 
 public class BaseApplication extends Application {
 
@@ -30,6 +31,7 @@ public class BaseApplication extends Application {
 
         NetworkApi.init(new NetworkRequiredInfo(this));
         MMKV.initialize(this);
+        MVUtils.getInstance();
         database = Room.databaseBuilder(this, AppDatabase.class, "mvvm_demo").build();
     }
 

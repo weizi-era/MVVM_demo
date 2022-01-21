@@ -29,6 +29,7 @@ public class MainRepository {
     final MutableLiveData<BiYingResponse> biYingImage = new MutableLiveData<>();
     final MutableLiveData<WallPaperResponse> wallPaperImage = new MutableLiveData<>();
 
+
     /**
      * 获取必应数据
      * @return
@@ -52,11 +53,11 @@ public class MainRepository {
     }
 
     /**
-     * 从网络上请求数据
+     * 从网络上请求必应数据
      */
     @SuppressLint("CheckResult")
     private void requestBiYingApi() {
-        Log.d(TAG, "requestNetworkApi: 从网络获取");
+        Log.d(TAG, "requestBiYingApi: 从网络获取");
         NetworkApi.createService(ApiService.class, 0).getBiYing().compose(NetworkApi.applySchedulers(new BaseObserver<BiYingResponse>() {
             @Override
             public void onSuccess(BiYingResponse biYingImgResponse) {
@@ -72,9 +73,12 @@ public class MainRepository {
         }));
     }
 
+    /**
+     * 从网络上请求壁纸数据
+     */
     @SuppressLint("CheckResult")
     private void requestWallPagerApi() {
-        Log.d(TAG, "requestNetworkApi: 从网络获取");
+        Log.d(TAG, "requestWallPagerApi: 从网络获取");
         NetworkApi.createService(ApiService.class, 1).wallPaper().compose(NetworkApi.applySchedulers(new BaseObserver<WallPaperResponse>() {
             @Override
             public void onSuccess(WallPaperResponse wallPaperResponse) {
@@ -115,7 +119,7 @@ public class MainRepository {
     }
 
     /**
-     * 保存数据
+     * 保存壁纸数据
      */
     private void saveWallPaperData(WallPaperResponse response) {
         // 记录今日已请求
@@ -124,21 +128,21 @@ public class MainRepository {
 
         List<WallPaperResponse.Res.Vertical> images = response.getRes().getVertical();
         // 保存到数据库
-
         WallPaperDao wallPaperDao = BaseApplication.getDatabase().wallPaperDao();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<WallPaper> wallPaperList = new ArrayList<>();
-                for (WallPaperResponse.Res.Vertical image : images) {
-                    wallPaperList.add(new WallPaper(image.getImg()));
-                }
-                wallPaperDao.insertAll(wallPaperList);
+        new Thread(() -> {
+            List<WallPaper> wallPaperList = new ArrayList<>();
+            for (WallPaperResponse.Res.Vertical image : images) {
+                wallPaperList.add(new WallPaper(image.getImg()));
             }
+            wallPaperDao.insertAll(wallPaperList);
         }).start();
     }
 
+    /**
+     * 保存必应数据
+     * @param response
+     */
     private void saveBiYingData(BiYingResponse response) {
         // 记录今日已请求
         MVUtils.put(Constants.IS_TODAY_REQUEST, true);
@@ -150,7 +154,9 @@ public class MainRepository {
                 images.getCopyright(), images.getCopyrightlink(), images.getTitle()))).start();
     }
 
-
+    /**
+     * 从数据库获取必应数据
+     */
     public void getBiYingFromDB() {
         Log.d(TAG, "getBiYingFromDB: 从本地数据库获取");
         BiYingResponse biYingResponse = new BiYingResponse();
@@ -172,8 +178,11 @@ public class MainRepository {
         }).start();
     }
 
+    /**
+     * 从数据库获取壁纸数据
+     */
     public void getWallPaperFromDB() {
-        Log.d(TAG, "getBiYingFromDB: 从本地数据库获取");
+        Log.d(TAG, "getWallPaperFromDB: 从本地数据库获取");
         WallPaperResponse wallPaperResponse = new WallPaperResponse();
         WallPaperResponse.Res res = new WallPaperResponse.Res();
         new Thread(new Runnable() {

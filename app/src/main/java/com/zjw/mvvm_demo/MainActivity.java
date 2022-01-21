@@ -26,18 +26,19 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
 
+        initData();
+
+    }
+
+    private void initData() {
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         mainViewModel.getBiYing();
-        //biYing.observe(this, response -> binding.setViewModel(mainViewModel));
-
         mainViewModel.getHotWall();
-        //hotWall.observe(this, wallPaperResponse -> binding.recycler.setAdapter(new WallPaperAdapter(wallPaperResponse.getRes().getVertical())));
 
         mainViewModel.biYing.observe(this, response -> binding.setViewModel(mainViewModel));
         mainViewModel.hotWall.observe(this, response -> binding.recycler.setAdapter(new WallPaperAdapter(response.getRes().getVertical())));
 
-        //binding.setLifecycleOwner(this);
     }
 
     private void initView() {
@@ -63,5 +64,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }
