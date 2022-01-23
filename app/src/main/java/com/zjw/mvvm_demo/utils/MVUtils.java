@@ -16,7 +16,7 @@ public class MVUtils {
         mmkv = MMKV.defaultMMKV();
     }
 
-    public static MVUtils getInstance() {
+    public static void getInstance() {
         if (mInstance == null) {
             synchronized (MVUtils.class) {
                 if (mInstance == null) {
@@ -24,7 +24,6 @@ public class MVUtils {
                 }
             }
         }
-        return mInstance;
     }
 
     /**

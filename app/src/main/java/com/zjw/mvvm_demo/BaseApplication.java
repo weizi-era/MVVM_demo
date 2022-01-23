@@ -32,7 +32,7 @@ public class BaseApplication extends Application {
         NetworkApi.init(new NetworkRequiredInfo(this));
         MMKV.initialize(this);
         MVUtils.getInstance();
-        database = Room.databaseBuilder(this, AppDatabase.class, "mvvm_demo").build();
+        database = AppDatabase.getInstance(this);
     }
 
     public static Context getContext() {

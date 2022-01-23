@@ -10,15 +10,18 @@ import com.zjw.mvvm_demo.db.bean.WallPaper;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+
 @Dao
 public interface WallPaperDao {
 
     @Query("SELECT * FROM wallpaper")
-    List<WallPaper> getAll();
+    Flowable<List<WallPaper>> getAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<WallPaper> wallPapers);
+    Completable insertAll(List<WallPaper> wallPapers);
 
     @Query("DELETE FROM wallpaper")
-    void deleteAll();
+    Completable deleteAll();
 }

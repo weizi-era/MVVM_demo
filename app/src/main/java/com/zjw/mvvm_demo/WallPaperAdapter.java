@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zjw.mvvm_demo.bean.WallPaperResponse;
 import com.zjw.mvvm_demo.databinding.ItemWallPaperBinding;
+import com.zjw.mvvm_demo.network.utils.KLog;
 
 import org.jetbrains.annotations.NotNull;
 

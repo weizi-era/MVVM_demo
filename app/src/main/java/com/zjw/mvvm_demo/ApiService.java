@@ -5,6 +5,7 @@ import com.zjw.mvvm_demo.bean.WallPaperResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -14,6 +15,6 @@ public interface ApiService {
     /**
      * 热门壁纸
      */
-    @GET("/v1/vertical/category/4e4d610cdf714d2966000000/vertical?limit=50&adult=false&first=1&order=hot")
-    Observable<WallPaperResponse> wallPaper();
+    @GET("/v1/vertical/category/4e4d610cdf714d2966000000/vertical?limit=50&adult=false&order=hot")
+    Observable<WallPaperResponse> wallPaper(@Query("first") int first);
 }

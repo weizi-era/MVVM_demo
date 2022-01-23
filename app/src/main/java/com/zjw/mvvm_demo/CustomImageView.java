@@ -1,18 +1,18 @@
 package com.zjw.mvvm_demo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 
-import org.jetbrains.annotations.NotNull;
 
 public class CustomImageView extends ShapeableImageView {
 

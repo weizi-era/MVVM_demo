@@ -8,7 +8,7 @@
             type="com.zjw.mvvm_demo.bean.WallPaperResponse.Res.Vertical" />
 
         <variable
-            name="click"
+            name="onClick"
             type="com.zjw.mvvm_demo.WallPaperAdapter.ClickBinding" />
     </data>
 
@@ -18,12 +18,12 @@
         android:orientation="vertical">
 
         <com.zjw.mvvm_demo.CustomImageView
-            android:id="@+id/biYing"
+            android:id="@+id/image"
             networkUrl="@{wallPager.img}"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="5dp"
-            android:onClick="@{() -> click.itemClick(wallPager,biYing)}"
+            android:onClick="@{() -> onClick.itemClick(wallPager, image)}"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundImageStyle" />
 

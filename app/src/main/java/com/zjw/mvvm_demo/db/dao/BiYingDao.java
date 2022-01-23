@@ -10,18 +10,20 @@ import com.zjw.mvvm_demo.db.bean.BiYing;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+
 @Dao
 public interface BiYingDao {
 
     @Query("SELECT * FROM biying")
     List<BiYing> getAll();
 
-
     @Query("SELECT * FROM biying WHERE uid LIKE :uid LIMIT 1")
-    BiYing queryById(int uid);
+    Flowable<BiYing> queryById(int uid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(BiYing... biYings);
+    Completable insertAll(BiYing... biYings);
 
     @Delete
     void delete(BiYing biYing);
