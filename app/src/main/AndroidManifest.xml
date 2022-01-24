@@ -17,12 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVM_demo">
         <activity
+            android:name=".ui.activity.RegisterActivity"
+            android:theme="@style/HomeTheme"
+            android:exported="true" />
+        <activity
             android:name=".ui.activity.WebActivity"
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".ui.activity.HomeActivity"
             android:theme="@style/HomeTheme" />
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.LoginActivity"
+            android:theme="@style/HomeTheme"/>
         <activity
             android:name=".ui.activity.PictureViewActivity"
             android:theme="@style/ImageTheme" />

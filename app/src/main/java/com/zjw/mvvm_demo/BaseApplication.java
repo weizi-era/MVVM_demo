@@ -12,6 +12,7 @@ import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
 import com.zjw.mvvm_demo.db.AppDatabase;
 import com.zjw.mvvm_demo.network.NetworkApi;
+import com.zjw.mvvm_demo.ui.activity.ActivityManager;
 import com.zjw.mvvm_demo.utils.MVUtils;
 
 import java.util.HashMap;
@@ -74,4 +75,9 @@ public class BaseApplication extends Application {
 
         QbSdk.initX5Environment(getApplicationContext(), cb);
     }
+
+    public static ActivityManager getActivityManager() {
+        return ActivityManager.getInstance();
+    }
+
 }

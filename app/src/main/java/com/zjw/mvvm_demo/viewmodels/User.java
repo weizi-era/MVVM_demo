@@ -7,31 +7,31 @@ import com.zjw.mvvm_demo.BR;
 
 
 public class User extends BaseObservable {
-   private String username;
-   private String password;
+   private String account;
+   private String pwd;
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public User(String account, String pwd) {
+        this.account = account;
+        this.pwd = pwd;
     }
 
     @Bindable
-    public String getUsername() {
-        return username;
+    public String getAccount() {
+        return account;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-        notifyPropertyChanged(BR.username);
+    public void setAccount(String account) {
+        this.account = account;
+        notifyPropertyChanged(BR.account);
     }
 
     @Bindable
-    public String getPassword() {
-        return password;
+    public String getPwd() {
+        return pwd;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-        notifyPropertyChanged(BR.password);
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+        notifyPropertyChanged(BR.pwd);
     }
 }

@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.zjw.mvvm_demo.BaseApplication;
+
 public class BaseActivity extends AppCompatActivity {
 
     protected AppCompatActivity context;
@@ -16,6 +18,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = this;
+        BaseApplication.getActivityManager().addActivity(this);
     }
 
     protected void showMsg(CharSequence msg) {

@@ -12,8 +12,10 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.zjw.mvvm_demo.Constants;
 import com.zjw.mvvm_demo.R;
 import com.zjw.mvvm_demo.databinding.ActivityHomeBinding;
+import com.zjw.mvvm_demo.utils.MVUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -55,10 +57,17 @@ public class HomeActivity extends BaseActivity {
                 case R.id.item_setting:
                     break;
                 case R.id.item_logout:
+                    logout();
                     break;
             }
 
             return true;
         });
+    }
+
+    private void logout() {
+        showMsg("退出登录");
+        MVUtils.put(Constants.IS_LOGIN, false);
+        jumpActivityFinish(LoginActivity.class);
     }
 }

@@ -11,16 +11,19 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.zjw.mvvm_demo.db.bean.BiYing;
 import com.zjw.mvvm_demo.db.bean.News;
+import com.zjw.mvvm_demo.db.bean.User;
 import com.zjw.mvvm_demo.db.bean.Video;
 import com.zjw.mvvm_demo.db.bean.WallPaper;
 import com.zjw.mvvm_demo.db.dao.BiYingDao;
 import com.zjw.mvvm_demo.db.dao.NewsDao;
+import com.zjw.mvvm_demo.db.dao.UserDao;
 import com.zjw.mvvm_demo.db.dao.VideoDao;
 import com.zjw.mvvm_demo.db.dao.WallPaperDao;
 
 import org.jetbrains.annotations.NotNull;
 
-@Database(entities = {BiYing.class, WallPaper.class, News.class, Video.class}, version = 3, exportSchema = false)
+@Database(entities = {BiYing.class, WallPaper.class, News.class,
+        Video.class, User.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "mvvm_demo";
@@ -34,6 +37,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract VideoDao videoDao();
 
+    public abstract UserDao userDao();
+
     public static AppDatabase getInstance(Context context) {
         if (mInstance == null) {
             synchronized (AppDatabase.class) {
@@ -42,6 +47,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             "mvvm_demo")
                             .addMigrations(MIGRATION_1_2)
                             .addMigrations(MIGRATION_2_3)
+                            .addMigrations(MIGRATION_3_4)
                             .build();
                 }
             }
@@ -88,6 +94,20 @@ public abstract class AppDatabase extends RoomDatabase {
                     "author TEXT," +
                     "item_cover TEXT," +
                     "hot_words TEXT," +
+                    "PRIMARY KEY(`uid`))");
+        }
+    };
+
+    static final Migration MIGRATION_3_4 = new Migration(3 ,4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //创建用户表
+            database.execSQL("CREATE TABLE `user` " +
+                    "(uid INTEGER NOT NULL, " +
+                    "account TEXT," +
+                    "pwd TEXT," +
+                    "nickName TEXT," +
+                    "introduction TEXT," +
                     "PRIMARY KEY(`uid`))");
         }
     };

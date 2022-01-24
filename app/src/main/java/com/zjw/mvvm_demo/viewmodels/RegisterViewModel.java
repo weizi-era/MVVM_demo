@@ -1,26 +1,33 @@
 package com.zjw.mvvm_demo.viewmodels;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
+
+import com.google.gson.Gson;
+import com.zjw.mvvm_demo.db.bean.User;
 import com.zjw.mvvm_demo.repository.UserRepository;
 
-public class LoginViewModel extends BaseViewModel {
-
+public class RegisterViewModel extends BaseViewModel {
     public MutableLiveData<User> user;
-    public LiveData<com.zjw.mvvm_demo.db.bean.User> localUser;
 
     public MutableLiveData<User> getUser() {
         if (user == null) {
             user = new MutableLiveData<>();
         }
+
         return user;
     }
 
-    public void getLocalUser() {
+    /**
+     * 注册
+     */
+    public void register() {
         UserRepository userRepository = new UserRepository();
-        localUser = userRepository.getUser();
         failed = userRepository.failure;
+        user.getValue().setUid(1);
+        Log.d("TAG", "register: "+new Gson().toJson(user.getValue()));
+        userRepository.saveUser(user.getValue());
     }
 }

@@ -18,7 +18,7 @@ import com.zjw.mvvm_demo.viewmodels.PictureViewModel;
 
 import java.util.List;
 
-public class PictureViewActivity extends AppCompatActivity {
+public class PictureViewActivity extends BaseActivity {
 
     private PictureViewModel viewModel;
     private ActivityPictureViewBinding binding;
