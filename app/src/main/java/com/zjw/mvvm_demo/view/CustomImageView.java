@@ -1,4 +1,4 @@
-package com.zjw.mvvm_demo;
+package com.zjw.mvvm_demo.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.zjw.mvvm_demo.BaseApplication;
 
 
 public class CustomImageView extends ShapeableImageView {

@@ -4,12 +4,13 @@
 
     <data>
         <variable
-            name="wallPager"
+            name="wallPaper"
             type="com.zjw.mvvm_demo.bean.WallPaperResponse.Res.Vertical" />
 
         <variable
             name="onClick"
-            type="com.zjw.mvvm_demo.WallPaperAdapter.ClickBinding" />
+            type="com.zjw.mvvm_demo.adapter.WallPaperAdapter.ClickBinding" />
+
     </data>
 
     <LinearLayout
@@ -17,13 +18,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.zjw.mvvm_demo.CustomImageView
+        <com.zjw.mvvm_demo.view.CustomImageView
             android:id="@+id/image"
-            networkUrl="@{wallPager.img}"
+            networkUrl="@{wallPaper.img}"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_margin="5dp"
-            android:onClick="@{() -> onClick.itemClick(wallPager, image)}"
+            android:onClick="@{() -> onClick.itemClick(wallPaper, image)}"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/roundImageStyle" />
 

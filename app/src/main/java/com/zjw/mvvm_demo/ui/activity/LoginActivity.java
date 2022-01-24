@@ -1,4 +1,4 @@
-package com.zjw.mvvm_demo;
+package com.zjw.mvvm_demo.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.zjw.mvvm_demo.R;
 import com.zjw.mvvm_demo.databinding.ActivityLoginBinding;
 import com.zjw.mvvm_demo.viewmodels.LoginViewModel;
 import com.zjw.mvvm_demo.viewmodels.User;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     LoginViewModel loginViewModel;
 

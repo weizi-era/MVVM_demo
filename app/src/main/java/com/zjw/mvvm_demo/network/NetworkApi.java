@@ -42,7 +42,7 @@ public class NetworkApi {
 
     private static final Map<String, Retrofit> retrofitHashMap = new HashMap<>();
 
-    public static void setUrlType(int type) {
+    private static void setUrlType(int type) {
         switch (type) {
             case 0:
                 // 必应
@@ -51,6 +51,14 @@ public class NetworkApi {
             case 1:
                 // 热门壁纸
                 BASE_URL = "http://service.picasso.adesk.com";
+                break;
+            case 2:
+                // 聚合头条新闻
+                BASE_URL = "http://v.juhe.cn";
+                break;
+            case 3:
+                // 聚合热门视频
+                BASE_URL = "http://apis.juhe.cn";
                 break;
         }
     }

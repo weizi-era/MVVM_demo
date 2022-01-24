@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        tools:context=".MainActivity">
+        tools:context=".ui.activity.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_layout"
@@ -34,9 +34,10 @@
                 app:title="MVVM_DEMO"
                 app:toolbarId="@id/toolbar">
 
-                <com.zjw.mvvm_demo.CustomImageView
+                <com.zjw.mvvm_demo.view.CustomImageView
                     biyingUrl="@{viewModel.biYing.images.get(0).url}"
                     android:layout_width="match_parent"
+                    android:fitsSystemWindows="true"
                     android:layout_height="200dp"
                     android:scaleType="fitXY"/>
 
@@ -56,6 +57,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -71,6 +73,21 @@
                 android:padding="5dp"/>
 
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="end|bottom"
+            android:background="@color/purple_500"
+            android:src="@mipmap/ic_home"
+            app:fabSize="auto"
+            android:contentDescription="主页"
+            android:backgroundTint="@color/purple_500"
+            tools:ignore="UsingOnClickInXml"
+            android:onClick="goHome"/>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

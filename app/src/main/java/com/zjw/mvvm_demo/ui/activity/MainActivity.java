@@ -1,26 +1,24 @@
-package com.zjw.mvvm_demo;
+package com.zjw.mvvm_demo.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.appbar.AppBarLayout;
-import com.zjw.mvvm_demo.bean.BiYingResponse;
-import com.zjw.mvvm_demo.bean.WallPaperResponse;
+import com.zjw.mvvm_demo.R;
+import com.zjw.mvvm_demo.adapter.WallPaperAdapter;
 import com.zjw.mvvm_demo.databinding.ActivityMainBinding;
 import com.zjw.mvvm_demo.viewmodels.MainViewModel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     ActivityMainBinding binding;
     private MainViewModel mainViewModel;
-    private WallPaperAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +37,8 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.getBiYing();
         mainViewModel.getHotWall();
 
-
         mainViewModel.biYing.observe(this, response -> binding.setViewModel(mainViewModel));
-        mainViewModel.hotWall.observe(this, response -> {
-            binding.setViewModel(mainViewModel);
-            binding.recycler.setAdapter(new WallPaperAdapter(response.getRes().getVertical()));
-        });
+        mainViewModel.hotWall.observe(this, response -> binding.recycler.setAdapter(new WallPaperAdapter(response.getRes().getVertical())));
     }
 
     private void initView() {
@@ -69,5 +63,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollX > oldScrollX) {
+                binding.fabHome.hide();
+            } else {
+                binding.fabHome.show();
+            }
+        });
+    }
+
+    public void goHome(View view) {
+        jumpActivity(HomeActivity.class);
     }
 }
