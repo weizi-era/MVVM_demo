@@ -2,8 +2,8 @@ package com.zjw.mvvm_demo.viewmodels;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.zjw.mvvm_demo.bean.User;
 import com.zjw.mvvm_demo.repository.UserRepository;
 
 public class LoginViewModel extends BaseViewModel {

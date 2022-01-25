@@ -17,4 +17,10 @@
         android:label="video_fragment"
         tools:layout="@layout/video_fragment"/>
 
+    <fragment
+        android:id="@+id/map_fragment"
+        android:name="com.zjw.mvvm_demo.ui.fragment.MapFragment"
+        android:label="map_fragment"
+        tools:layout="@layout/map_fragment"/>
+
 </navigation>

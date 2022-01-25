@@ -23,7 +23,7 @@ import com.zjw.mvvm_demo.db.dao.WallPaperDao;
 import org.jetbrains.annotations.NotNull;
 
 @Database(entities = {BiYing.class, WallPaper.class, News.class,
-        Video.class, User.class}, version = 4, exportSchema = false)
+        Video.class, User.class}, version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "mvvm_demo";
@@ -48,6 +48,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             .addMigrations(MIGRATION_1_2)
                             .addMigrations(MIGRATION_2_3)
                             .addMigrations(MIGRATION_3_4)
+                            .addMigrations(MIGRATION_4_5)
                             .build();
                 }
             }
@@ -98,6 +99,9 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    /**
+     * 版本升级迁移到4，新增用户表
+     */
     static final Migration MIGRATION_3_4 = new Migration(3 ,4) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
@@ -109,6 +113,16 @@ public abstract class AppDatabase extends RoomDatabase {
                     "nickName TEXT," +
                     "introduction TEXT," +
                     "PRIMARY KEY(`uid`))");
+        }
+    };
+
+    /**
+     * 版本升级迁移到5 在用户表中新增一个avatar字段
+     */
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `user` ADD COLUMN avatar TEXT");
         }
     };
 }

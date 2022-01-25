@@ -23,7 +23,7 @@ public class RegisterActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
-        viewModel.getUser().setValue(new User(0, "", "", "", "", ""));
+        viewModel.getUser().setValue(new User(0, "", "", "", null, null));
         binding.setRegister(viewModel);
 
         initView();

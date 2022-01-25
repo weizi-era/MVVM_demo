@@ -1,12 +1,10 @@
 package com.zjw.mvvm_demo.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -18,7 +16,7 @@ import com.zjw.mvvm_demo.R;
 import com.zjw.mvvm_demo.databinding.ActivityLoginBinding;
 import com.zjw.mvvm_demo.utils.MVUtils;
 import com.zjw.mvvm_demo.viewmodels.LoginViewModel;
-import com.zjw.mvvm_demo.viewmodels.User;
+import com.zjw.mvvm_demo.bean.User;
 
 public class LoginActivity extends BaseActivity {
 
@@ -38,9 +36,8 @@ public class LoginActivity extends BaseActivity {
         user = new User("", "");
         loginViewModel.getUser().setValue(user);
 
-        MutableLiveData<User> user1 = loginViewModel.getUser();
-        user1.observe(this, user2 -> binding.setViewModel(loginViewModel));
-
+        MutableLiveData<User> user = loginViewModel.getUser();
+        user.observe(this, user1 -> binding.setViewModel(loginViewModel));
 
         binding.btnLogin.setOnClickListener(v -> {
             if (loginViewModel.user.getValue().getAccount().isEmpty()) {
