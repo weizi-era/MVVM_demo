@@ -64,8 +64,9 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        //页面上下滑动监听
         binding.scrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollX > oldScrollX) {
+            if (scrollY > oldScrollY) {
                 binding.fabHome.hide();
             } else {
                 binding.fabHome.show();

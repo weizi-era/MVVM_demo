@@ -80,7 +80,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:layout_gravity="end|bottom"
-            android:background="@color/purple_500"
             android:src="@mipmap/ic_home"
             app:fabSize="auto"
             android:contentDescription="主页"
