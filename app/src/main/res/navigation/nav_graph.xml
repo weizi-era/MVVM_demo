@@ -3,19 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/news_fragment">
+    app:startDestination="@id/info_fragment">
 
     <fragment
-        android:id="@+id/news_fragment"
-        android:name="com.zjw.mvvm_demo.ui.fragment.NewsFragment"
-        android:label="news_fragment"
-        tools:layout="@layout/news_fragment"/>
-
-    <fragment
-        android:id="@+id/video_fragment"
-        android:name="com.zjw.mvvm_demo.ui.fragment.VideoFragment"
-        android:label="video_fragment"
-        tools:layout="@layout/video_fragment"/>
+        android:id="@+id/info_fragment"
+        android:name="com.zjw.mvvm_demo.ui.fragment.InfoFragment"
+        android:label="info_fragment"
+        tools:layout="@layout/fragment_info"/>
 
     <fragment
         android:id="@+id/map_fragment"

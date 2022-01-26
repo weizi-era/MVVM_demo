@@ -12,11 +12,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.zjw.mvvm_demo.view.dialog.LoadingDialog;
+
 import org.jetbrains.annotations.NotNull;
 
 public class BaseFragment extends Fragment {
 
     protected AppCompatActivity context;
+
+    private LoadingDialog loadingDialog;
 
     @Nullable
     @Override
@@ -45,6 +49,32 @@ public class BaseFragment extends Fragment {
 
     protected void showMsg(String msg) {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 显示加载弹窗
+     */
+    protected void showLoading() {
+        loadingDialog = new LoadingDialog(context);
+        loadingDialog.show();
+    }
+
+    /**
+     * 显示加载弹窗
+     *
+     * @param isClose true 则点击其他区域弹窗关闭， false 不关闭。
+     */
+    protected void showLoading(boolean isClose) {
+        loadingDialog = new LoadingDialog(context, isClose);
+    }
+
+    /**
+     * 隐藏加载弹窗
+     */
+    protected void dismissLoading() {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
     }
 
 }

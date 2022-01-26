@@ -1,5 +1,6 @@
 package com.zjw.mvvm_demo.ui.fragment;
 
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,21 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMapOptions;
+import com.amap.api.maps.CameraUpdate;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.district.DistrictItem;
+import com.amap.api.services.district.DistrictResult;
+import com.amap.api.services.district.DistrictSearch;
+import com.amap.api.services.district.DistrictSearchQuery;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeAddress;
@@ -41,9 +53,12 @@ import com.amap.api.services.weather.LocalWeatherLive;
 import com.amap.api.services.weather.LocalWeatherLiveResult;
 import com.amap.api.services.weather.WeatherSearch;
 import com.amap.api.services.weather.WeatherSearchQuery;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.zjw.mvvm_demo.R;
+import com.zjw.mvvm_demo.adapter.CityAdapter;
 import com.zjw.mvvm_demo.adapter.ForecastAdapter;
 import com.zjw.mvvm_demo.bean.LiveWeather;
 import com.zjw.mvvm_demo.databinding.DialogWeatherBinding;
@@ -52,10 +67,11 @@ import com.zjw.mvvm_demo.databinding.MapFragmentBinding;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MapFragment extends BaseFragment implements AMap.OnMyLocationChangeListener, GeocodeSearch.OnGeocodeSearchListener, WeatherSearch.OnWeatherSearchListener {
+public class MapFragment extends BaseFragment implements AMap.OnMyLocationChangeListener, GeocodeSearch.OnGeocodeSearchListener, WeatherSearch.OnWeatherSearchListener, DistrictSearch.OnDistrictSearchListener {
 
     private MapViewModel mViewModel;
     private MapFragmentBinding binding;
@@ -73,8 +89,16 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
     private LocalWeatherLive liveResult;
     private LocalWeatherForecast forecastResult;
 
-    private WeatherSearchQuery mQuery;
+    private WeatherSearchQuery weatherSearchQuery;
     private WeatherSearch weatherSearch;
+
+    private DistrictSearch districtSearch;
+    private DistrictSearchQuery districtSearchQuery;
+
+    //数组下标
+    private int index = 0;
+    //行政区数组
+    private final String[] districtArray = new String[5];
 
     //天气预报列表
     private List<LocalDayWeatherForecast> weatherForecast;
@@ -101,14 +125,23 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
         MapsInitializer.updatePrivacyAgree(requireContext(), true);
         binding.mapView.onCreate(savedInstanceState);
 
+        showLoading();
+
         //点击按钮显示天气弹窗
         binding.fabWeather.setOnClickListener(v -> showWeatherDialog());
+        binding.fabCity.setOnClickListener(v -> binding.drawerLayout.openDrawer(GravityCompat.END));
 
         initMap();
 
         initSearch();
+
+        districtArray[index] = "中国";
+        districtSearch(districtArray[index]);
     }
 
+    /**
+     * 初始化地图
+     */
     private void initMap() {
         //初始化地图控制器对象
         if (aMap == null) {
@@ -134,8 +167,14 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
      */
     private void initSearch() {
         try {
+            //初始化地理编码搜索
             geocoderSearch = new GeocodeSearch(requireActivity());
             geocoderSearch.setOnGeocodeSearchListener(this);
+
+            //初始化城市行政区搜索
+            districtSearch = new DistrictSearch(requireContext());
+            districtSearch.setOnDistrictSearchListener(this);
+            districtSearchQuery = new DistrictSearchQuery();
         } catch (AMapException e) {
             e.printStackTrace();
         }
@@ -147,11 +186,11 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
      */
     private void searchWeather(int type) {
         //检索参数为城市和天气类型，实况天气为WEATHER_TYPE_LIVE、天气预报为WEATHER_TYPE_FORECAST
-        mQuery = new WeatherSearchQuery(district, type);
+        weatherSearchQuery = new WeatherSearchQuery(district, type);
         try {
             weatherSearch = new WeatherSearch(requireContext());
             weatherSearch.setOnWeatherSearchListener(this);
-            weatherSearch.setQuery(mQuery);
+            weatherSearch.setQuery(weatherSearchQuery);
             weatherSearch.searchWeatherAsyn(); //异步搜索
         } catch (AMapException e) {
             e.printStackTrace();
@@ -241,9 +280,25 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
         }
     }
 
+    /**
+     * 地址转坐标
+     */
     @Override
-    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int rCode) {
+        //拿到返回的坐标，然后去地图上定位，改变地图中心
+        if (rCode == PARSE_SUCCESS_CODE) {
+            Log.e("TAG", "onGeocodeSearched: 地址转坐标成功");
+            List<GeocodeAddress> geocodeAddressList = geocodeResult.getGeocodeAddressList();
+            if (geocodeAddressList != null && geocodeAddressList.size() > 0) {
+                LatLonPoint latLonPoint = geocodeAddressList.get(0).getLatLonPoint();
+                Log.e("TAG", "onGeocodeSearched: 坐标：" + latLonPoint.getLongitude() + "，" + latLonPoint.getLatitude());
 
+                //切换地图中心
+                switchMapCenter(geocodeResult, latLonPoint);
+            }
+        } else {
+            showMsg("获取坐标失败");
+        }
     }
 
     /**
@@ -269,8 +324,112 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
         if (weatherForecast != null) {
             Log.e("TAG", "onWeatherForecastSearched: " + new Gson().toJson(weatherForecast));
             binding.fabWeather.show();
+            binding.fabCity.show();
+            dismissLoading();
         } else {
             showMsg("天气预报数据为空");
         }
     }
+
+    /**
+     * 行政区搜索返回
+     *
+     * @param districtResult 搜索结果
+     */
+    @Override
+    public void onDistrictSearched(DistrictResult districtResult) {
+        if (districtResult != null) {
+            dismissLoading();
+            if (districtResult.getAMapException().getErrorCode() == AMapException.CODE_AMAP_SUCCESS) {
+                final List<String> nameList = new ArrayList<>();
+                List<DistrictItem> subDistrict = districtResult.getDistrict().get(0).getSubDistrict();
+                for (int i = 0; i < subDistrict.size(); i++) {
+                    nameList.add(subDistrict.get(i).getName());
+                }
+
+                //设置数据源
+                if (nameList.size() != 0) {
+                    CityAdapter adapter = new CityAdapter(nameList);
+                    binding.rvCity.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    //设置item点击事件
+                    adapter.setOnItemClickListener(new OnItemClickListener() {
+                        @Override
+                        public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                            showLoading();
+                            index++;
+                            districtArray[index] = nameList.get(position);
+
+                            binding.ivBack.setVisibility(View.VISIBLE);
+                            binding.ivBack.setOnClickListener(v -> {
+                                index--;
+                                districtSearch(districtArray[index]);
+                                if ("中国".equals(districtArray[index])) {
+                                    binding.ivBack.setVisibility(View.GONE);
+                                }
+                            });
+
+                            districtSearch(districtArray[index]);
+                        }
+                    });
+                    binding.rvCity.setAdapter(adapter);
+                } else {
+                    addressToLatlng();
+                }
+            }
+        }
+    }
+
+    /**
+     * 行政区搜索
+     */
+    public void districtSearch(String name) {
+        binding.setName(name);
+        //设置查询关键字
+        districtSearchQuery.setKeywords(name);
+        districtSearch.setQuery(districtSearchQuery);
+        // 异步查询行政区
+        districtSearch.searchDistrictAsyn();
+    }
+
+    /**
+     * 地址转经纬度坐标
+     */
+    private void addressToLatlng() {
+        //关闭抽屉
+        binding.drawerLayout.closeDrawer(GravityCompat.END);
+        // GeocodeQuery 有两个参数 一个是当前所选城市，第二个是当前地的上上级城市，
+        //Log.e("TAG", "onDistrictSearched: " + districtArray[index] + "  ,  " + districtArray[index - 2]);
+        GeocodeQuery query = new GeocodeQuery(districtArray[index], districtArray[index - 2]);
+        geocoderSearch.getFromLocationNameAsyn(query);
+
+        //重置行政区
+        index = 0;
+        //搜索行政区
+        districtArray[index] = "中国";
+        districtSearch(districtArray[index]);
+    }
+
+    /**
+     * 切换地图中心
+     */
+    private void switchMapCenter(GeocodeResult geocodeResult, LatLonPoint latLonPoint) {
+        //显示解析后的坐标，
+        double latitude = latLonPoint.getLatitude();
+        double longitude = latLonPoint.getLongitude();
+        //创建经纬度对象
+        LatLng latLng = new LatLng(latitude, longitude);
+        //改变地图中心点
+        //参数依次是：视角调整区域的中心点坐标、希望调整到的缩放级别、俯仰角0°~45°（垂直与地图时为0）、偏航角 0~360° (正北方为0)
+        CameraUpdate mCameraUpdate = CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, 18, 30, 0));
+        //在地图上添加marker
+        aMap.addMarker(new MarkerOptions().position(latLng).title(geocodeResult.getGeocodeQuery().getLocationName()).snippet("DefaultMarker"));
+        //动画移动
+        aMap.animateCamera(mCameraUpdate);
+
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 20, GeocodeSearch.AMAP);
+        geocoderSearch.getFromLocationAsyn(query);
+    }
+
+
+
 }

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.zjw.mvvm_demo.BaseApplication;
 import com.zjw.mvvm_demo.utils.PermissionUtils;
@@ -63,6 +64,14 @@ public class BaseActivity extends AppCompatActivity {
     protected void jumpActivityFinish(final Class<?> clazz) {
         startActivity(new Intent(context, clazz));
         finish();
+    }
+
+    protected void back(Toolbar toolbar) {
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    protected void backAndFinish(Toolbar toolbar) {
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     /**

@@ -92,6 +92,4 @@ dependencies {
 
     // 腾讯X5内核WebView
     implementation 'com.tencent.tbs:tbssdk:44085'
-
-
 }
