@@ -6,21 +6,32 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.method.ScrollingMovementMethod;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 
+import com.pgyer.pgyersdk.model.CheckSoftModel;
 import com.zjw.mvvm_demo.BaseApplication;
+import com.zjw.mvvm_demo.R;
+import com.zjw.mvvm_demo.databinding.DialogUpdateBinding;
 import com.zjw.mvvm_demo.utils.PermissionUtils;
+import com.zjw.mvvm_demo.utils.SizeUtils;
+import com.zjw.mvvm_demo.utils.UpdateUtils;
+import com.zjw.mvvm_demo.view.dialog.AlertDialog;
 import com.zjw.mvvm_demo.view.dialog.LoadingDialog;
 
 public class BaseActivity extends AppCompatActivity {
 
     protected AppCompatActivity context;
     private LoadingDialog loadingDialog;
+    private AlertDialog updateDialog;
 
     /**
      * 打开相册请求码
@@ -71,7 +82,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void backAndFinish(Toolbar toolbar) {
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     /**
@@ -160,6 +171,28 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
         intent.setData(Uri.parse("package:" + getPackageName()));
         startActivityForResult(intent, PermissionUtils.REQUEST_MANAGE_EXTERNAL_STORAGE_CODE);
+    }
+
+    protected void showUpdateDialog(CheckSoftModel checkSoftModel) {
+        DialogUpdateBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_update, null, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .addDefaultAnimation()
+                .setCancelable(false)
+                .setText(R.id.tv_update_title, "发现新版本")
+                .setText(R.id.versionName, "V" + checkSoftModel.getBuildVersion())
+                .setText(R.id.tv_content, checkSoftModel.getBuildUpdateDescription())
+                .setContentView(binding.getRoot())
+                .setWidthAndHeight(SizeUtils.dp2px(this, 300), LinearLayout.LayoutParams.WRAP_CONTENT)
+                .setOnClickListener(R.id.btn_update_cancel, v -> updateDialog.dismiss())
+                .setOnClickListener(R.id.bt_update, v -> {
+                    UpdateUtils.downloadFile(this, "MVVM_Demo.apk", checkSoftModel.getDownloadURL());
+                    updateDialog.dismiss();
+                });
+        binding.tvContent.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+        updateDialog = builder.create();
+        updateDialog.show();
+
     }
 
 

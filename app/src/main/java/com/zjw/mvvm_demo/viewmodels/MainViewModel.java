@@ -8,7 +8,7 @@ import com.zjw.mvvm_demo.bean.WallPaperResponse;
 import com.zjw.mvvm_demo.repository.MainRepository;
 
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends BaseViewModel {
     public LiveData<BiYingResponse> biYing;
     public LiveData<WallPaperResponse> hotWall;
 

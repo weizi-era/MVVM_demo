@@ -148,9 +148,11 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
             aMap = binding.mapView.getMap();
         }
 
+        mLocationOption = new AMapLocationClientOption();
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         myLocationStyle.showMyLocation(true);
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
+        mLocationOption.setOnceLocationLatest(true);  //启动定位时SDK会返回最近3s内精度最高的一次定位结果
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
         myLocationStyle.strokeColor(Color.argb(0, 0, 0, 0));
         aMap.setMyLocationStyle(myLocationStyle); //设置定位蓝点的Style
@@ -429,7 +431,4 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
         RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 20, GeocodeSearch.AMAP);
         geocoderSearch.getFromLocationAsyn(query);
     }
-
-
-
 }

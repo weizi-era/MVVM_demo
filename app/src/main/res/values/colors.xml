@@ -10,4 +10,5 @@
     <color name="line">#F1F0F0</color>
 
     <color name="translucent">#90000000</color>
+    <color name="progressbtn_backgroud_color">#0FA9E6</color>
 </resources>

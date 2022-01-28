@@ -5,8 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.room.Room;
-
+import com.pgyer.pgyersdk.PgyerSDKManager;
+import com.pgyer.pgyersdk.pgyerenum.Features;
 import com.tencent.mmkv.MMKV;
 import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
@@ -36,6 +36,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
+        initPgyerSDK(this);
         NetworkApi.init(new NetworkRequiredInfo(this));
         MMKV.initialize(this);
         MVUtils.getInstance();
@@ -79,5 +80,17 @@ public class BaseApplication extends Application {
     public static ActivityManager getActivityManager() {
         return ActivityManager.getInstance();
     }
+
+    /**
+     *  初始化蒲公英SDK
+     * @param application
+     */
+    private static void initPgyerSDK(Application application){
+        new PgyerSDKManager.Init()
+                .setContext(application) //设置上下问对象
+                .enable(Features.CHECK_UPDATE) //开启自动更新检测
+                .start();
+    }
+
 
 }

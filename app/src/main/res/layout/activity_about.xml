@@ -77,10 +77,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="当前版本"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"/>
 
                 <TextView
+                    android:id="@+id/versionCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.0.0"
@@ -109,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="博客地址"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"/>
 
                 <ImageView
@@ -138,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="源码地址"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"/>
 
                 <ImageView
@@ -167,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="联系邮箱"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -184,7 +185,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
