@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MVVM_demo</string>
+
+    <string name="setting">Setting</string>
+
+    <string name="system_language">System language:</string>
+
+    <string name="current_language">Current language:</string>
+
+    <string name="choose_lang">Language</string>
+
+    <string name="system_lang">System language</string>
+
+    <string name="chinese">Chinese</string>
+
+    <string name="english">English</string>
+
+    <string name="traditional_chinese">Traditional Chinese</string>
+</resources>

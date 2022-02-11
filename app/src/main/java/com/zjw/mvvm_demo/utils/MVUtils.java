@@ -5,12 +5,14 @@ import android.os.Parcelable;
 import com.tencent.mmkv.MMKV;
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Set;
 
 public class MVUtils {
 
     private static MVUtils mInstance;
     private static MMKV mmkv;
+    private static Locale systemCurrentLocal = Locale.CHINESE;//系统当前本地语言为中文 初始值
 
     public MVUtils() {
         mmkv = MMKV.defaultMMKV();
@@ -138,6 +140,45 @@ public class MVUtils {
      */
     public static void clearAll() {
         mmkv.clearAll();
+    }
+
+    /**
+     * 设置语言
+     *
+     * @param select 选中的语言项
+     */
+    public static void setLanguage(int select) {
+
+        mmkv.encode("language", select);
+
+    }
+
+    /**
+     * 获取语言
+     *
+     * @return 从缓存中根据缓存名或者缓存值，如果没有，则返回默认值0
+     */
+    public static int getLanguage() {
+        return mmkv.decodeInt("language", 0);
+    }
+
+
+    /**
+     * 设置系统当前本地
+     *
+     * @param local 本地对象
+     */
+    public static void setSystemCurrentLocal(Locale local) {
+        systemCurrentLocal = local;
+    }
+
+    /**
+     * 获取系统当前本地
+     *
+     * @return 系统当前本地
+     */
+    public static Locale getSystemCurrentLocal() {
+        return systemCurrentLocal;
     }
 
 }

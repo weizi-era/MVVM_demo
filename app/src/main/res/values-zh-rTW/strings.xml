@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MVVM_demo</string>
+
+    <string name="setting">設置</string>
+
+    <string name="system_language">系統語言：</string>
+
+    <string name="current_language">當前語言：</string>
+
+    <string name="choose_lang">語言選擇</string>
+
+    <string name="system_lang">系統語言</string>
+
+    <string name="chinese">中文簡體</string>
+
+    <string name="english">英文</string>
+
+    <string name="traditional_chinese">中文繁體</string>
+</resources>
+

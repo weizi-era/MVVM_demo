@@ -32,7 +32,6 @@ public class CustomImageView extends ShapeableImageView {
         super(context, attrs, defStyleAttr);
     }
 
-
     /**
      * 必应壁纸  因为拿到的url不完整，因此需要做一次地址拼接
      * @param imageView 图片视图

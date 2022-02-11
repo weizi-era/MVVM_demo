@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MVVM_demo</string>
 
@@ -16,5 +17,4 @@
     <string name="english">英文</string>
 
     <string name="traditional_chinese">中文繁体</string>
-
 </resources>

@@ -33,6 +33,8 @@ public class NetworkApi {
      */
     private static INetworkRequiredInfo iNetworkRequiredInfo;
 
+    private static volatile NetworkApi instance;
+
     /**
      * API访问地址
      */
@@ -61,6 +63,18 @@ public class NetworkApi {
                 BASE_URL = "http://apis.juhe.cn";
                 break;
         }
+    }
+
+    public static NetworkApi getInstance() {
+        if (instance == null) {
+            synchronized (NetworkApi.class) {
+                if (instance == null) {
+                    instance = new NetworkApi();
+                }
+            }
+        }
+
+        return instance;
     }
 
     public static void init(INetworkRequiredInfo networkRequiredInfo) {
@@ -142,7 +156,7 @@ public class NetworkApi {
      * @param <T>      泛型
      * @return Observable
      */
-    public static <T> ObservableTransformer<T, T> applySchedulers(final Observer<T> observer) {
+    public <T> ObservableTransformer<T, T> applySchedulers(final Observer<T> observer) {
         return upstream -> {
             Observable<T> observable = upstream
                     .subscribeOn(Schedulers.io())//线程订阅

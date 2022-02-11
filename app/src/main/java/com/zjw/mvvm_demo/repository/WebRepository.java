@@ -18,7 +18,7 @@ public class WebRepository {
 
     @SuppressLint("CheckResult")
     public MutableLiveData<NewsDetailResponse> getNewsDetail(String uniquekey) {
-        NetworkApi.createService(ApiService.class, 2).newsDetail(uniquekey).compose(NetworkApi.applySchedulers(new BaseObserver<NewsDetailResponse>() {
+        NetworkApi.createService(ApiService.class, 2).newsDetail(uniquekey).compose(NetworkApi.getInstance().applySchedulers(new BaseObserver<NewsDetailResponse>() {
             @Override
             protected void onSuccess(NewsDetailResponse newsDetailResponse) {
                 if (newsDetailResponse.getErrorCode() == Constants.SUCCESS) {

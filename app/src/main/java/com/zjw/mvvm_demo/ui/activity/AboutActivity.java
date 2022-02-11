@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.zjw.mvvm_demo.R;
 
 import com.zjw.mvvm_demo.databinding.ActivityAboutBinding;
 import com.zjw.mvvm_demo.databinding.DialogUpdateBinding;
+import com.zjw.mvvm_demo.utils.LocalManageUtils;
 import com.zjw.mvvm_demo.utils.SizeUtils;
 import com.zjw.mvvm_demo.utils.UpdateUtils;
 import com.zjw.mvvm_demo.view.dialog.AlertDialog;
@@ -28,8 +30,6 @@ import com.zjw.mvvm_demo.view.dialog.AlertDialog;
 public class AboutActivity extends BaseActivity {
 
     private ActivityAboutBinding binding;
-
-    private AlertDialog updateDialog;
 
     /**
      * 博客个人主页
@@ -49,6 +49,7 @@ public class AboutActivity extends BaseActivity {
         backAndFinish(binding.toolbar);
 
         binding.versionCode.setText(BuildConfig.VERSION_NAME);
+        binding.tvLanguage.setText(LocalManageUtils.getSelectLanguage(this));
         binding.rlVersion.setOnClickListener(v -> {
             showLoading();
             PgyerSDKManager.checkVersionUpdate(this, new CheckoutCallBack() {
@@ -74,6 +75,8 @@ public class AboutActivity extends BaseActivity {
         binding.rlBlog.setOnClickListener(v -> jumpUrl(CSDN));
         binding.rlSourceCode.setOnClickListener(v -> jumpUrl(GITHUB_URL));
         binding.rlMail.setOnClickListener(v -> copyEmail());
+
+        binding.rlLanguage.setOnClickListener(v -> jumpActivity(LanguageChooseActivity.class));
     }
 
     /**

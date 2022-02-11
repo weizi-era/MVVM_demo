@@ -28,8 +28,6 @@ public class MainActivity extends BaseActivity {
     ActivityMainBinding binding;
     private MainViewModel mainViewModel;
 
-    private AlertDialog updateDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,6 @@ public class MainActivity extends BaseActivity {
         initView();
 
         initData();
-
     }
 
     private void initData() {

@@ -56,7 +56,7 @@ public class CameraUtils {
 
     /**
      * 相册Intent
-     * @return
+     * @return intent
      */
     public static Intent getSelectPhotoIntent() {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");

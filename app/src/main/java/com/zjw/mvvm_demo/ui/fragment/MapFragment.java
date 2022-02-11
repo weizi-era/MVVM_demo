@@ -73,7 +73,6 @@ import java.util.List;
 
 public class MapFragment extends BaseFragment implements AMap.OnMyLocationChangeListener, GeocodeSearch.OnGeocodeSearchListener, WeatherSearch.OnWeatherSearchListener, DistrictSearch.OnDistrictSearchListener {
 
-    private MapViewModel mViewModel;
     private MapFragmentBinding binding;
     private MyLocationStyle myLocationStyle;
 
@@ -118,7 +117,6 @@ public class MapFragment extends BaseFragment implements AMap.OnMyLocationChange
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MapViewModel.class);
 
         //基于个人隐私保护的关系，这里要设置为true，否则会出现地图白屏的情况
         MapsInitializer.updatePrivacyShow(requireContext(), true, true);

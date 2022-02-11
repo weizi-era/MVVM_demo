@@ -3,7 +3,10 @@ package com.zjw.mvvm_demo;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.pgyer.pgyersdk.PgyerSDKManager;
 import com.pgyer.pgyersdk.pgyerenum.Features;
@@ -13,6 +16,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.zjw.mvvm_demo.db.AppDatabase;
 import com.zjw.mvvm_demo.network.NetworkApi;
 import com.zjw.mvvm_demo.ui.activity.ActivityManager;
+import com.zjw.mvvm_demo.utils.LocalManageUtils;
 import com.zjw.mvvm_demo.utils.MVUtils;
 
 import java.util.HashMap;
@@ -28,7 +32,11 @@ public class BaseApplication extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        MMKV.initialize(base);
+        MVUtils.getInstance();
+        // 设置系统当前语言
+        LocalManageUtils.setSystemCurrentLanguage();
+        super.attachBaseContext(LocalManageUtils.setLocale(base));
     }
 
     @Override
@@ -36,10 +44,12 @@ public class BaseApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
 
+        //设置App的语言
+        LocalManageUtils.setAppLanguage(this);
+
         initPgyerSDK(this);
         NetworkApi.init(new NetworkRequiredInfo(this));
-        MMKV.initialize(this);
-        MVUtils.getInstance();
+
         database = AppDatabase.getInstance(this);
 
         initX5WebView();
@@ -85,12 +95,17 @@ public class BaseApplication extends Application {
      *  初始化蒲公英SDK
      * @param application
      */
-    private static void initPgyerSDK(Application application){
+    private static void initPgyerSDK(Application application) {
         new PgyerSDKManager.Init()
                 .setContext(application) //设置上下问对象
                 .enable(Features.CHECK_UPDATE) //开启自动更新检测
                 .start();
     }
 
-
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //通过全局的上下文参数更改相关资源配置
+        LocalManageUtils.onConfigurationChanged(getApplicationContext());
+    }
 }

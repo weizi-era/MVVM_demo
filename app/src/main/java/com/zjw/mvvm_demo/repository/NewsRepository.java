@@ -46,7 +46,7 @@ public class NewsRepository {
     @SuppressLint("CheckResult")
     private void requestNewsApi() {
         Log.d(TAG, "requestNewsApi: 从网络获取 新闻");
-        NetworkApi.createService(ApiService.class, 2).news().compose(NetworkApi.applySchedulers(new BaseObserver<NewsResponse>() {
+        NetworkApi.createService(ApiService.class, 2).news().compose(NetworkApi.getInstance().applySchedulers(new BaseObserver<NewsResponse>() {
             @Override
             protected void onSuccess(NewsResponse newsResponse) {
                 if (newsResponse.getErrorCode() == Constants.SUCCESS) {

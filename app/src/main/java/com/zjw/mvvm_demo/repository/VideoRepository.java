@@ -48,7 +48,7 @@ public class VideoRepository {
     @SuppressLint("CheckResult")
     private void requestVideoApi() {
         Log.d(TAG, "requestVideoApi: 从网络获取 热门视频");
-        NetworkApi.createService(ApiService.class, 3).video().compose(NetworkApi.applySchedulers(new BaseObserver<VideoResponse>() {
+        NetworkApi.createService(ApiService.class, 3).video().compose(NetworkApi.getInstance().applySchedulers(new BaseObserver<VideoResponse>() {
             @Override
             protected void onSuccess(VideoResponse VideoResponse) {
                 if (VideoResponse.getErrorCode() == Constants.SUCCESS) {

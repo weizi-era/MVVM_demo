@@ -64,7 +64,7 @@ public class MainRepository {
     @SuppressLint("CheckResult")
     private void requestBiYingApi() {
         Log.d(TAG, "requestBiYingApi: 从网络获取");
-        NetworkApi.createService(ApiService.class, 0).getBiYing().compose(NetworkApi.applySchedulers(new BaseObserver<BiYingResponse>() {
+        NetworkApi.createService(ApiService.class, 0).getBiYing().compose(NetworkApi.getInstance().applySchedulers(new BaseObserver<BiYingResponse>() {
             @Override
             public void onSuccess(BiYingResponse biYingImgResponse) {
                 //存储到本地数据库中，并记录今日已请求了数据
@@ -92,7 +92,7 @@ public class MainRepository {
         } else {
             first = MVUtils.getInt("first");
         }
-        NetworkApi.createService(ApiService.class, 1).wallPaper(first).compose(NetworkApi.applySchedulers(new BaseObserver<WallPaperResponse>() {
+        NetworkApi.createService(ApiService.class, 1).wallPaper(first).compose(NetworkApi.getInstance().applySchedulers(new BaseObserver<WallPaperResponse>() {
             @Override
             public void onSuccess(WallPaperResponse wallPaperResponse) {
                 //存储到本地数据库中，并记录今日已请求了数据

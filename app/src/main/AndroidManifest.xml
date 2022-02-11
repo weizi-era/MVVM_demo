@@ -22,13 +22,10 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- 如果设置了target >= 28 如果需要启动后台定位则必须声明这个权限 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 如果您的应用需要后台定位权限，且有可能运行在Android Q设备上,并且设置了target>28，必须增加这个权限声明 -->
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
     <uses-permission
         android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- 用户手机设置中允许未知来源安装包安装状态为关；-->
-    <!-- Android8.0 以后，如果要安装 apk 需要额外添加权限：-->
+        tools:ignore="ProtectedPermissions" /> <!-- 用户手机设置中允许未知来源安装包安装状态为关； -->
+    <!-- Android8.0 以后，如果要安装 apk 需要额外添加权限： -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
@@ -41,7 +38,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVM_demo">
-
+        <activity android:name=".ui.activity.LanguageChooseActivity"
+            android:theme="@style/HomeTheme"/>
         <activity
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/HomeTheme" />
@@ -72,9 +70,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Android7.0以后读取文件需要配置Provider -->
+        </activity> <!-- Android7.0以后读取文件需要配置Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -83,9 +79,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-
-        <!-- 高德地图Key -->
+        </provider> <!-- 高德地图Key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="c7326d98d38ef85c9916eaf304a87658" />

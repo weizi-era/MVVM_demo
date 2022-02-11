@@ -14,6 +14,5 @@ public class PictureViewModel extends BaseViewModel {
 
     public void getWallPaper() {
         wallPaper = new PictureRepository().getWallPaper();
-
     }
 }

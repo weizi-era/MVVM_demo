@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.zjw.mvvm_demo.Constants;
@@ -74,6 +75,7 @@ public class HomeActivity extends BaseActivity {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         initView();
+
     }
 
     private void initView() {
@@ -84,10 +86,12 @@ public class HomeActivity extends BaseActivity {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.info_fragment:
+                    Log.d("HomeActivity", "initView: info_fragment");
                     binding.tvTitle.setText("热门资讯");
                     controller.navigate(R.id.info_fragment);
                     break;
                 case R.id.map_fragment:
+                    Log.d("HomeActivity", "initView: map_fragment");
                     binding.tvTitle.setText("地图天气");
                     controller.navigate(R.id.map_fragment);
                     break;

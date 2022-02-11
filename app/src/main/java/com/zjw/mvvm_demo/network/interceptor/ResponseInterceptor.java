@@ -2,6 +2,8 @@ package com.zjw.mvvm_demo.network.interceptor;
 
 import com.zjw.mvvm_demo.network.utils.KLog;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -15,6 +17,7 @@ public class ResponseInterceptor implements Interceptor {
 
     private static final String TAG = "ResponseInterceptor";
 
+    @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         long requestTime = System.currentTimeMillis();
