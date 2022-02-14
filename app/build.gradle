@@ -10,16 +10,16 @@ android {
         applicationId "com.zjw.mvvm_demo"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.3"
+        versionCode 8
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     defaultConfig {
         ndk {
-            //设置支持的SO库架构
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+            //设置支持的SO库架构 "armeabi", "armeabi-v7a", "x86", "x86_64"
+            abiFilters "arm64-v8a"
         }
     }
 

@@ -332,7 +332,7 @@ public class DateUtil {
 
     /**
      * 第二天早晨0点的毫秒时间戳
-     * @return
+     * @return  时间戳
      */
     public static Long getMillisNextEarlyMorning() {
         Calendar cal = Calendar.getInstance();

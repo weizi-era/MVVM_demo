@@ -66,6 +66,7 @@ public class BaseFragment extends Fragment {
      */
     protected void showLoading(boolean isClose) {
         loadingDialog = new LoadingDialog(context, isClose);
+        loadingDialog.show();
     }
 
     /**

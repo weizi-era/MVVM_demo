@@ -40,6 +40,16 @@ public class AboutActivity extends BaseActivity {
      */
     private final String GITHUB_URL = "https://github.com/weizi-era/MVVM_demo";
 
+    /**
+     * 隐私政策
+     */
+    private final String PRIVATE_POLICY = "https://www.yuque.com/weizi-era/kb/yuy5kg";
+
+    /**
+     * 用户协议
+     */
+    private final String USER_PROTOCOL = "https://www.yuque.com/weizi-era/kb/tvweb5";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +84,8 @@ public class AboutActivity extends BaseActivity {
         });
         binding.rlBlog.setOnClickListener(v -> jumpUrl(CSDN));
         binding.rlSourceCode.setOnClickListener(v -> jumpUrl(GITHUB_URL));
+        binding.rlPrivatePolicy.setOnClickListener(v -> jumpUrl(PRIVATE_POLICY));
+        binding.rlUserProtocol.setOnClickListener(v -> jumpUrl(USER_PROTOCOL));
         binding.rlMail.setOnClickListener(v -> copyEmail());
 
         binding.rlLanguage.setOnClickListener(v -> jumpActivity(LanguageChooseActivity.class));
