@@ -55,7 +55,6 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_about);
 
-
         backAndFinish(binding.toolbar);
 
         binding.versionCode.setText(BuildConfig.VERSION_NAME);
@@ -89,15 +88,6 @@ public class AboutActivity extends BaseActivity {
         binding.rlMail.setOnClickListener(v -> copyEmail());
 
         binding.rlLanguage.setOnClickListener(v -> jumpActivity(LanguageChooseActivity.class));
-    }
-
-    /**
-     * 跳转URL
-     *
-     * @param url 地址
-     */
-    private void jumpUrl(String url) {
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
     private void copyEmail() {

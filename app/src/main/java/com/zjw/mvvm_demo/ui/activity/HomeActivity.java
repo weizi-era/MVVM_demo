@@ -86,12 +86,10 @@ public class HomeActivity extends BaseActivity {
         binding.bottomNavigation.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.info_fragment:
-                    Log.d("HomeActivity", "initView: info_fragment");
                     binding.tvTitle.setText("热门资讯");
                     controller.navigate(R.id.info_fragment);
                     break;
                 case R.id.map_fragment:
-                    Log.d("HomeActivity", "initView: map_fragment");
                     binding.tvTitle.setText("地图天气");
                     controller.navigate(R.id.map_fragment);
                     break;
@@ -105,6 +103,9 @@ public class HomeActivity extends BaseActivity {
             switch (item.getItemId()) {
                 case R.id.item_setting:
                     jumpActivity(AboutActivity.class);
+                    break;
+                case R.id.item_scan:
+                    jumpActivity(ScanActivity.class);
                     break;
                 case R.id.item_logout:
                     logout();
@@ -394,12 +395,4 @@ public class HomeActivity extends BaseActivity {
         binding.etContent.setHint(type == 0 ? "请输入昵称" : "请输入简介");
         editDialog.show();
     }
-
-
-
-
-
-
-
-
 }

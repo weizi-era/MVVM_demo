@@ -70,6 +70,14 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 跳转URL
+     * @param url 地址
+     */
+    protected void jumpUrl(String url) {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+    }
+
+    /**
      * 跳转页面并关闭当前页面
      * @param clazz 目标页面
      */
@@ -114,6 +122,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     protected void showLoading(boolean isClose) {
         loadingDialog = new LoadingDialog(this, isClose);
+        loadingDialog.show();
     }
 
     /**
@@ -193,8 +202,5 @@ public class BaseActivity extends AppCompatActivity {
 
         updateDialog = builder.create();
         updateDialog.show();
-
     }
-
-
 }

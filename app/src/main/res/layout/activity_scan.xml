@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/previewView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.king.zxing.ViewfinderView
+            android:id="@+id/viewfinderView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?actionBarSize"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫二维码"
+            android:textColor="@color/white"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="?actionBarSize"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/ivFlashlight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/zxl_flashlight_selector"
+            android:layout_marginTop="@dimen/zxl_flashlight_margin_top" />
+
+        <ImageView
+            android:id="@+id/iv_album"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_album"
+            android:layout_marginTop="200dp"
+            android:layout_gravity="center"/>
+</FrameLayout>

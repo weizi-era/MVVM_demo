@@ -38,8 +38,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVM_demo">
-        <activity android:name=".ui.activity.LanguageChooseActivity"
-            android:theme="@style/HomeTheme"/>
+        <activity
+            android:name=".ui.activity.ScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CaptureTheme" />
+        <activity
+            android:name=".ui.activity.LanguageChooseActivity"
+            android:theme="@style/HomeTheme" />
         <activity
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/HomeTheme" />

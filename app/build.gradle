@@ -96,4 +96,7 @@ dependencies {
     //蒲公英sdk
     implementation 'com.pgyer:analytics:4.2.1'
 
+    //zxing-lite
+    implementation 'com.github.jenly1314:zxing-lite:2.1.1'
+
 }
