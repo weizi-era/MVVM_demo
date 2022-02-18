@@ -11,11 +11,15 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.zjw.mvvm_demo.db.bean.BiYing;
 import com.zjw.mvvm_demo.db.bean.News;
+import com.zjw.mvvm_demo.db.bean.Notebook;
+import com.zjw.mvvm_demo.db.bean.Todo;
 import com.zjw.mvvm_demo.db.bean.User;
 import com.zjw.mvvm_demo.db.bean.Video;
 import com.zjw.mvvm_demo.db.bean.WallPaper;
 import com.zjw.mvvm_demo.db.dao.BiYingDao;
 import com.zjw.mvvm_demo.db.dao.NewsDao;
+import com.zjw.mvvm_demo.db.dao.NotebookDao;
+import com.zjw.mvvm_demo.db.dao.TodoDao;
 import com.zjw.mvvm_demo.db.dao.UserDao;
 import com.zjw.mvvm_demo.db.dao.VideoDao;
 import com.zjw.mvvm_demo.db.dao.WallPaperDao;
@@ -23,7 +27,7 @@ import com.zjw.mvvm_demo.db.dao.WallPaperDao;
 import org.jetbrains.annotations.NotNull;
 
 @Database(entities = {BiYing.class, WallPaper.class, News.class,
-        Video.class, User.class}, version = 5, exportSchema = false)
+        Video.class, User.class, Notebook.class, Todo.class}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "mvvm_demo";
@@ -39,6 +43,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
 
+    public abstract NotebookDao notebookDao();
+
+    public abstract TodoDao todoDao();
+
     public static AppDatabase getInstance(Context context) {
         if (mInstance == null) {
             synchronized (AppDatabase.class) {
@@ -49,6 +57,9 @@ public abstract class AppDatabase extends RoomDatabase {
                             .addMigrations(MIGRATION_2_3)
                             .addMigrations(MIGRATION_3_4)
                             .addMigrations(MIGRATION_4_5)
+                            .addMigrations(MIGRATION_5_6)
+                            .addMigrations(MIGRATION_6_7)
+                            .addMigrations(MIGRATION_7_8)
                             .build();
                 }
             }
@@ -125,4 +136,50 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE `user` ADD COLUMN avatar TEXT");
         }
     };
+
+    /**
+     * 版本升级迁移到6 在数据库中新增一个笔记表
+     */
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            //创建笔记表
+            database.execSQL("CREATE TABLE `notebook` " +
+                    "(uid INTEGER NOT NULL, " +
+                    "title TEXT, " +
+                    "content TEXT, " +
+                    "date TEXT, " +
+                    "time TEXT, " +
+                    "PRIMARY KEY(`uid`))");
+        }
+    };
+
+    /**
+     * 版本升级迁移到7 在用户表中新增一个isChecked字段
+     */
+    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE `notebook` ADD COLUMN isChecked INTEGER NOT NULL DEFAULT 0");
+        }
+    };
+
+    /**
+     * 版本升级迁移到8 在数据库中新增一个待办表
+     */
+    static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+        @Override
+        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
+            //创建待办表
+            database.execSQL("CREATE TABLE `todo` " +
+                    "(uid INTEGER NOT NULL, " +
+                    "title TEXT, " +
+                    "remark TEXT, " +
+                    "date TEXT, " +
+                    "time TEXT, " +
+                    "PRIMARY KEY(`uid`))");
+        }
+    };
+
+
 }

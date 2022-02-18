@@ -59,7 +59,8 @@ public class CameraUtils {
      * @return intent
      */
     public static Intent getSelectPhotoIntent() {
-        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
         return intent;
     }

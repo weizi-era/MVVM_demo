@@ -39,6 +39,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MVVM_demo">
         <activity
+            android:name=".ui.activity.TodoEditActivity"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".ui.activity.NoteEditActivity"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".ui.activity.NotebookActivity"
+            android:theme="@style/SplashTheme" />
+        <activity
             android:name=".ui.activity.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CaptureTheme" />

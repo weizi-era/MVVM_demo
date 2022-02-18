@@ -2,6 +2,7 @@ package com.zjw.mvvm_demo.ui.activity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.zjw.mvvm_demo.Constants;
 import com.zjw.mvvm_demo.R;
+import com.zjw.mvvm_demo.SelectPhotoContract;
 import com.zjw.mvvm_demo.databinding.ActivityHomeBinding;
 import com.zjw.mvvm_demo.databinding.DialogEditBinding;
 import com.zjw.mvvm_demo.databinding.DialogModifyUserInfoBinding;
@@ -64,9 +67,30 @@ public class HomeActivity extends BaseActivity {
 
     private User localUser;
 
+    /**
+     * 常规使用 通过意图进行跳转
+     */
+    private ActivityResultLauncher<Intent> intentActivityResultLauncher;
+
+    /**
+     * 相册活动结果启动器
+     */
+    private ActivityResultLauncher<String[]> openAlbumActivityResultLauncher;
+
+    /**
+     * 拍照活动结果启动器
+     */
+    private ActivityResultLauncher<Uri> takePictureActivityResultLauncher;
+
+    /**
+     * 页面权限请求 结果启动器
+     */
+    private ActivityResultLauncher<String[]> permissionActivityResultLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        register();
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
@@ -75,7 +99,6 @@ public class HomeActivity extends BaseActivity {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         initView();
-
     }
 
     private void initView() {
@@ -93,16 +116,23 @@ public class HomeActivity extends BaseActivity {
                     binding.tvTitle.setText("地图天气");
                     controller.navigate(R.id.map_fragment);
                     break;
+                case R.id.iden_fragment:
+                    binding.tvTitle.setText("图片识别");
+                    controller.navigate(R.id.iden_fragment);
+                    break;
             }
 
             return true;
         });
 
         binding.ivAvatar.setOnClickListener(v -> binding.drawerLayout.open());
-        binding.naviView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) item -> {
+        binding.naviView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.item_setting:
+                case R.id.item_about:
                     jumpActivity(AboutActivity.class);
+                    break;
+                case R.id.item_notebook:
+                    jumpActivity(NotebookActivity.class);
                     break;
                 case R.id.item_scan:
                     jumpActivity(ScanActivity.class);
@@ -145,7 +175,7 @@ public class HomeActivity extends BaseActivity {
     private void requestLocation() {
         if (isAndroid6()) {
             if (!hasPermission(PermissionUtils.LOCATION)) {
-                requestPermission(PermissionUtils.LOCATION);
+                permissionActivityResultLauncher.launch(new String[]{PermissionUtils.LOCATION});
             }
         } else {
             showMsg("您无需动态请求权限");
@@ -183,7 +213,7 @@ public class HomeActivity extends BaseActivity {
         modifyUserInfoDialog.dismiss();
         if (isAndroid11()) {
             //请求打开外部存储管理
-            requestManageExternalStorage();
+            requestManageExternalStorage(intentActivityResultLauncher);
         } else {
             if (!isAndroid6()) {
                 //打开相册
@@ -191,7 +221,7 @@ public class HomeActivity extends BaseActivity {
                 return;
             }
             if (!hasPermission(PermissionUtils.READ_EXTERNAL_STORAGE)) {
-                requestPermission(PermissionUtils.READ_EXTERNAL_STORAGE);
+                permissionActivityResultLauncher.launch(new String[]{PermissionUtils.READ_EXTERNAL_STORAGE});
                 return;
             }
             //打开相册
@@ -203,71 +233,127 @@ public class HomeActivity extends BaseActivity {
      * 打开相册
      */
     private void openAlbum() {
-        startActivityForResult(CameraUtils.getSelectPhotoIntent(), SELECT_PHOTO_CODE);
+        openAlbumActivityResultLauncher.launch(new String[]{"image/*"});
     }
 
-    /**
-     * 页面返回结果
-     */
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) {
-            showMsg("未知原因");
-            return;
-        }
-        switch (requestCode) {
-            case PermissionUtils.REQUEST_MANAGE_EXTERNAL_STORAGE_CODE:
+    private void register() {
+        intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
                 //从外部存储管理页面返回
                 if (!isStorageManager()) {
                     showMsg("未打开外部存储管理开关，无法打开相册，抱歉");
                     return;
                 }
                 if (!hasPermission(PermissionUtils.READ_EXTERNAL_STORAGE)) {
-                    requestPermission(PermissionUtils.READ_EXTERNAL_STORAGE);
+                    permissionActivityResultLauncher.launch(new String[]{PermissionUtils.READ_EXTERNAL_STORAGE});
                     return;
                 }
                 //打开相册
                 openAlbum();
-                break;
-            case SELECT_PHOTO_CODE:
-                // 修改头像
-                modifyAvatar(CameraUtils.getImageOnKitKatPath(data, this));
-                break;
-            case TAKE_PHOTO_CODE:
-                //相机中拍照返回
-                modifyAvatar(isAndroid10() ? mCameraUri.toString() : mCameraImagePath);
-                break;
-        }
+            }
+        });
 
-    }
+        //调用MediaStore.ACTION_IMAGE_CAPTURE拍照，并将图片保存到给定的Uri地址，返回true表示保存成功。
+        takePictureActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
+            if (result) {
+                modifyAvatar(mCameraUri.toString());
+            }
+        });
 
-    /**
-     * 权限请求结果
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull  String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case PermissionUtils.REQUEST_STORAGE_CODE:
+        // 自定义相册Contract，选择相册，返回它的Uri。
+        openAlbumActivityResultLauncher = registerForActivityResult(new SelectPhotoContract(), result -> {
+            if (result != null) {
+                modifyAvatar(result.toString());
+            }
+        });
+
+        //多个权限返回结果
+        permissionActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            if (result.containsKey(PermissionUtils.CAMERA)) {
+                //相机权限
+                if (!result.get(PermissionUtils.CAMERA)) {
+                    showMsg("您拒绝了相机权限，无法打开相机，抱歉。");
+                    return;
+                }
+                takePicture();
+            } else if (result.containsKey(PermissionUtils.READ_EXTERNAL_STORAGE)) {
                 //文件读写权限
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                if (!result.get(PermissionUtils.READ_EXTERNAL_STORAGE)) {
                     showMsg("您拒绝了读写文件权限，无法打开相册，抱歉。");
                     return;
                 }
                 openAlbum();
-                break;
-            case PermissionUtils.REQUEST_CAMERA_CODE:
-                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    showMsg("您拒绝了相机权限，无法打开相机，抱歉。");
-                    return;
+            } else if (result.containsKey(PermissionUtils.LOCATION)) {
+                //定位权限
+                if (!result.get(PermissionUtils.LOCATION)) {
+                    showMsg("您拒绝了位置许可，将无法使用地图，抱歉。");
                 }
-                openCamera();
-                break;
-            default:
-                break;
-        }
+            }
+        });
     }
+
+//    /**
+//     * 页面返回结果
+//     */
+//    @Override
+//    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode != RESULT_OK) {
+//            showMsg("未知原因");
+//            return;
+//        }
+//        switch (requestCode) {
+//            case PermissionUtils.REQUEST_MANAGE_EXTERNAL_STORAGE_CODE:
+//                //从外部存储管理页面返回
+//                if (!isStorageManager()) {
+//                    showMsg("未打开外部存储管理开关，无法打开相册，抱歉");
+//                    return;
+//                }
+//                if (!hasPermission(PermissionUtils.READ_EXTERNAL_STORAGE)) {
+//                    requestPermission(PermissionUtils.READ_EXTERNAL_STORAGE);
+//                    return;
+//                }
+//                //打开相册
+//                openAlbum();
+//                break;
+//            case SELECT_PHOTO_CODE:
+//                // 修改头像
+//                modifyAvatar(CameraUtils.getImageOnKitKatPath(data, this));
+//                break;
+//            case TAKE_PHOTO_CODE:
+//                //相机中拍照返回
+//                modifyAvatar(isAndroid10() ? mCameraUri.toString() : mCameraImagePath);
+//                break;
+//        }
+//
+//    }
+//
+//    /**
+//     * 权限请求结果
+//     */
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull  String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            case PermissionUtils.REQUEST_STORAGE_CODE:
+//                //文件读写权限
+//                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+//                    showMsg("您拒绝了读写文件权限，无法打开相册，抱歉。");
+//                    return;
+//                }
+//                openAlbum();
+//                break;
+//            case PermissionUtils.REQUEST_CAMERA_CODE:
+//                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+//                    showMsg("您拒绝了相机权限，无法打开相机，抱歉。");
+//                    return;
+//                }
+//                takePicture();
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 
     /**
      * 修改头像
@@ -312,55 +398,64 @@ public class HomeActivity extends BaseActivity {
         modifyUserInfoDialog.dismiss();
         if (!isAndroid6()) {
             //打开相机
-            openCamera();
+            takePicture();
             return;
         }
         if (!hasPermission(PermissionUtils.CAMERA)) {
-            requestPermission(PermissionUtils.CAMERA);
+            permissionActivityResultLauncher.launch(new String[]{PermissionUtils.CAMERA});
             return;
         }
         //打开相机
-        openCamera();
+        takePicture();
     }
 
     /**
-     * 调起相机拍照
+     * 新的拍照
      */
-    private void openCamera() {
-        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // 判断是否有相机
-        if (captureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            Uri photoUri = null;
-
-            if (isAndroid10()) {
-                // 适配android 10 创建图片地址uri,用于保存拍照后的照片 Android 10以后使用这种方法
-                photoUri = getContentResolver().insert(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ?
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI : MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
-            } else {
-                photoFile = createImageFile();
-                mCameraImagePath = photoFile.getAbsolutePath();
-
-                if (isAndroid7()) {
-                    //适配Android 7.0文件权限，通过FileProvider创建一个content类型的Uri
-                    photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", photoFile);
-                } else {
-                    photoUri = Uri.fromFile(photoFile);
-                }
-            }
-
-            mCameraUri = photoUri;
-            if (photoUri != null) {
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                startActivityForResult(captureIntent, TAKE_PHOTO_CODE);
-            }
-        }
+    private void takePicture() {
+        mCameraUri = getContentResolver().insert(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ?
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI : MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
+        takePictureActivityResultLauncher.launch(mCameraUri);
     }
 
-    private File createImageFile() {
-        return new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "photo");
-    }
+//    /**
+//     * 调起相机拍照
+//     */
+//    private void openCamera() {
+//        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        // 判断是否有相机
+//        if (captureIntent.resolveActivity(getPackageManager()) != null) {
+//            File photoFile = null;
+//            Uri photoUri = null;
+//
+//            if (isAndroid10()) {
+//                // 适配android 10 创建图片地址uri,用于保存拍照后的照片 Android 10以后使用这种方法
+//                photoUri = getContentResolver().insert(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ?
+//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI : MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
+//            } else {
+//                photoFile = createImageFile();
+//                mCameraImagePath = photoFile.getAbsolutePath();
+//
+//                if (isAndroid7()) {
+//                    //适配Android 7.0文件权限，通过FileProvider创建一个content类型的Uri
+//                    photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", photoFile);
+//                } else {
+//                    photoUri = Uri.fromFile(photoFile);
+//                }
+//            }
+//
+//            mCameraUri = photoUri;
+//            if (photoUri != null) {
+//                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+//                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                startActivityForResult(captureIntent, TAKE_PHOTO_CODE);
+//            }
+//        }
+//    }
+
+//    private File createImageFile() {
+//        return new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "photo");
+//    }
 
     /**
      * 显示可输入文字弹窗

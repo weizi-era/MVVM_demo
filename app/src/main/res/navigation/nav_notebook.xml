@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_notebook"
+    app:startDestination="@id/notebook_fragment">
+
+    <fragment
+        android:id="@+id/notebook_fragment"
+        android:name="com.zjw.mvvm_demo.ui.fragment.NotebookFragment"
+        android:label="fragment_notebook"
+        tools:layout="@layout/fragment_notebook" />
+    <fragment
+        android:id="@+id/todo_fragment"
+        android:name="com.zjw.mvvm_demo.ui.fragment.TodoFragment"
+        android:label="fragment_todo"
+        tools:layout="@layout/fragment_todo" />
+
+
+</navigation>

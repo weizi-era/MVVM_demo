@@ -19,8 +19,9 @@ public final class EasyDate {
     public static final String STANDARD_TIME = "yyyy-MM-dd HH:mm:ss";
     public static final String FULL_TIME = "yyyy-MM-dd HH:mm:ss.SSS";
     public static final String YEAR_MONTH_DAY = "yyyy-MM-dd";
-    public static final String YEAR_MONTH_DAY_CN = "yyyy年MM月dd号";
+    public static final String YEAR_MONTH_DAY_CN = "yyyy年MM月dd日";
     public static final String HOUR_MINUTE_SECOND = "HH:mm:ss";
+    public static final String HOUR_MINUTE = "HH:mm";
     public static final String HOUR_MINUTE_SECOND_CN = "HH时mm分ss秒";
     public static final String YEAR = "yyyy";
     public static final String MONTH = "MM";
@@ -93,6 +94,15 @@ public final class EasyDate {
      */
     public static String getHoursMinutesAndSeconds() {
         return new SimpleDateFormat(HOUR_MINUTE_SECOND, Locale.CHINESE).format(new Date());
+    }
+
+    /**
+     * 获取时分
+     *
+     * @return 例如 10:38
+     */
+    public static String getHoursMinutes() {
+        return new SimpleDateFormat(HOUR_MINUTE, Locale.CHINESE).format(new Date());
     }
 
     /**

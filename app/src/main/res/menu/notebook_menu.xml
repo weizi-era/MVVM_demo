@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/notebook_fragment"
+        android:icon="@mipmap/ic_notebook"
+        android:title="笔记"/>
+
+    <item android:id="@+id/todo_fragment"
+        android:icon="@mipmap/ic_todo"
+        android:title="待办"/>
+
+</menu>

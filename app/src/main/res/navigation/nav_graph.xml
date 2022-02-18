@@ -17,4 +17,10 @@
         android:label="map_fragment"
         tools:layout="@layout/map_fragment"/>
 
+    <fragment
+        android:id="@+id/iden_fragment"
+        android:name="com.zjw.mvvm_demo.ui.fragment.IdenFragment"
+        android:label="iden_fragment"
+        tools:layout="@layout/iden_fragment"/>
+
 </navigation>

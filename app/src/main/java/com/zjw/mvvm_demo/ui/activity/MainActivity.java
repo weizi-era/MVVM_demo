@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
                     scrollChange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollChange + verticalOffset == 0) {
-                    binding.toolbarLayout.setTitle("MVVM-Demo");
+                    binding.toolbarLayout.setTitle("每日壁纸");
                     isShow = true;
                 } else if (isShow) {
                     binding.toolbarLayout.setTitle("");

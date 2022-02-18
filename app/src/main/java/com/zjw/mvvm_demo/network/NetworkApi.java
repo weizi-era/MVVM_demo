@@ -62,6 +62,11 @@ public class NetworkApi {
                 // 聚合热门视频
                 BASE_URL = "http://apis.juhe.cn";
                 break;
+
+            case 4:
+                // 百度开放API
+                BASE_URL= "https://aip.baidubce.com";
+                break;
         }
     }
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="todo"
+            type="com.zjw.mvvm_demo.db.bean.Todo" />
+
+        <import type="android.text.TextUtils"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/detail"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_bg_white_radius_12"
+        android:padding="12dp">
+
+
+        <ImageView
+            android:id="@+id/iv_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_todo_doing"/>
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_toRightOf="@+id/iv_state"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:text="@{TextUtils.isEmpty(todo.title) ? todo.remark : todo.title}"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_toRightOf="@+id/iv_state"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="20dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@{todo.date}"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+</layout>

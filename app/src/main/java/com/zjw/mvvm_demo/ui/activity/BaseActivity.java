@@ -1,5 +1,7 @@
 package com.zjw.mvvm_demo.ui.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -9,15 +11,19 @@ import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.pgyer.pgyersdk.model.CheckSoftModel;
 import com.zjw.mvvm_demo.BaseApplication;
 import com.zjw.mvvm_demo.R;
@@ -170,17 +176,13 @@ public class BaseActivity extends AppCompatActivity {
         return PermissionUtils.hasPermission(this, permissionName);
     }
 
-    protected void requestPermission(String permissionName) {
-        PermissionUtils.requestPermission(this, permissionName);
-    }
-
     /**
      * 请求外部存储管理 Android11版本时获取文件读写权限时调用
      */
-    protected void requestManageExternalStorage() {
+    protected void requestManageExternalStorage(ActivityResultLauncher<Intent> intentActivityResultLauncher) {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
         intent.setData(Uri.parse("package:" + getPackageName()));
-        startActivityForResult(intent, PermissionUtils.REQUEST_MANAGE_EXTERNAL_STORAGE_CODE);
+        intentActivityResultLauncher.launch(intent);
     }
 
     protected void showUpdateDialog(CheckSoftModel checkSoftModel) {
@@ -202,5 +204,16 @@ public class BaseActivity extends AppCompatActivity {
 
         updateDialog = builder.create();
         updateDialog.show();
+    }
+
+    /**
+     * EditText获取焦点并显示软键盘
+     */
+    protected void showSoftInputFromWindow(EditText editText) {
+//        editText.setFocusable(true);
+//        editText.setFocusableInTouchMode(true);
+        editText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(editText, 0);
     }
 }

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="notebook"
+            type="com.zjw.mvvm_demo.db.bean.Notebook" />
+
+        <import type="com.zjw.mvvm_demo.utils.EasyDate"/>
+
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        tools:context=".ui.activity.NoteEditActivity">
+
+        <ImageView
+            android:id="@+id/edit_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@mipmap/ic_edit_return"/>
+
+        <ImageView
+            android:id="@+id/edit_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:clickable="false"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@mipmap/ic_gray_ok"/>
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_back"
+            android:textSize="40sp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:singleLine="true"
+            android:hint="标题"
+            android:text="@{notebook.title}"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:ellipsize="end"
+            android:textColorHint="@color/Grey600"
+            android:backgroundTint="@color/white"/>
+
+        <TextView
+            android:id="@+id/tv_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/note_title"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:id="@+id/note_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_today"
+            android:layout_below="@+id/note_title" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/note_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_today"
+            android:backgroundTint="@color/white"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="start"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@{notebook.content}"
+            android:textColor="@color/black"
+            android:textColorHint="@color/Grey600"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</layout>

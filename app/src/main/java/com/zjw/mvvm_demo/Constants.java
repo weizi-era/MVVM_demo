@@ -32,4 +32,23 @@ public class Constants {
 
     public static final int SUCCESS = 0;
 
+    public static final String GRANT_TYPE = "client_credentials";
+
+    public static final String CLIENT_ID = "k7OclhqMnGxkA1X78tPxEveM";
+
+    public static final String CLIENT_SECRET = "pURGtlAEg6wiYY7VBNaWmzerxGaWj6rY";
+
+    /**
+     * 鉴权Token
+     */
+    public static final String TOKEN = "accessToken";
+    /**
+     * 获取Token的时间
+     */
+    public static final String GET_TOKEN_TIME = "getTokenTime";
+    /**
+     * Token有效期
+     */
+    public static final String TOKEN_VALID_PERIOD = "tokenValidPeriod";
+
 }
