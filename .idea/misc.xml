@@ -9,13 +9,20 @@
       <map>
         <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/activity_login.xml" value="0.3536458333333333" />
         <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/activity_main.xml" value="0.3536458333333333" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/activity_notebook.xml" value="0.3536458333333333" />
         <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/activity_picture_view.xml" value="0.3536458333333333" />
         <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/activity_register.xml" value="0.3536458333333333" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/activity_todo_edit.xml" value="0.3536458333333333" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/dialog_remind.xml" value="0.3536458333333333" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/fragment_notebook.xml" value="0.33" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/fragment_todo.xml" value="0.3536458333333333" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/item_notebook.xml" value="0.3536458333333333" />
+        <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/item_todo.xml" value="0.3536458333333333" />
         <entry key="..\:/workspace/AndroidStudioProjects/MVVM_demo/app/src/main/res/layout/item_wall_paper.xml" value="0.3536458333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

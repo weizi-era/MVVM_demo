@@ -12,7 +12,24 @@ public class Todo {
     private String title;
     private String remark;
     private String date;
-    private String time;
+    private boolean isImport;
+    private boolean isDone;
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
+
+    public boolean isImport() {
+        return isImport;
+    }
+
+    public void setImport(boolean anImport) {
+        isImport = anImport;
+    }
 
     public int getUid() {
         return uid;
@@ -46,20 +63,15 @@ public class Todo {
         this.date = date;
     }
 
-    public String getTime() {
-        return time;
-    }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     @Ignore
-    public Todo(String title, String remark, String date, String time) {
+    public Todo(String title, String remark, String date, boolean isImport, boolean isDone) {
         this.title = title;
         this.remark = remark;
         this.date = date;
-        this.time = time;
+        this.isImport = isImport;
+        this.isDone = isDone;
     }
 
     public Todo() {

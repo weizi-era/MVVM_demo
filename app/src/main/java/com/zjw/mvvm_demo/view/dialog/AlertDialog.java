@@ -115,6 +115,12 @@ public class AlertDialog extends Dialog {
             return this;
         }
 
+
+        public Builder setGravity(int gravity) {
+            P.mGravity = gravity;
+            return this;
+        }
+
         /**
          * 设置对话框宽度占满屏幕
          *
@@ -189,6 +195,11 @@ public class AlertDialog extends Dialog {
          */
         public Builder addDefaultAnimation() {
             P.mAnimation = R.style.dialog_scale_anim;
+            return this;
+        }
+
+        public Builder addAnimation(int anim) {
+            P.mAnimation = anim;
             return this;
         }
 

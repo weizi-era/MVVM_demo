@@ -63,6 +63,8 @@ public class NotebookFragment extends BaseFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        back(binding.toolbar);
+
         viewModel = new ViewModelProvider(this).get(NotebookViewModel.class);
 
         viewModel.getNotebooks();

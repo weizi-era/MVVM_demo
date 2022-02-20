@@ -176,7 +176,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     "title TEXT, " +
                     "remark TEXT, " +
                     "date TEXT, " +
-                    "time TEXT, " +
+                    "import INTEGER NOT NULL DEFAULT 0, " +
+                    "done INTEGER NOT NULL DEFAULT 0, " +
                     "PRIMARY KEY(`uid`))");
         }
     };

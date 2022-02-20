@@ -33,6 +33,9 @@ public interface TodoDao {
     @Delete
     Completable delete(Todo todo);
 
+    @Query("DELETE FROM todo")
+    Completable deleteAll();
+
     @Query("DELETE FROM todo WHERE uid=:uid")
-    Completable deleteMore(int uid);
+    Completable deleteById(int uid);
 }

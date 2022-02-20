@@ -18,11 +18,42 @@
         android:background="@color/Grey100"
         android:orientation="vertical">
 
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:navigationIcon="@mipmap/ic_back_black">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="全部待办"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:text="取消"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </androidx.appcompat.widget.Toolbar>
+
         <!--笔记列表-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_todo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
             android:overScrollMode="never"
             android:paddingStart="8dp"
             android:visibility="@{hasTodo ? View.VISIBLE : View.GONE}"
@@ -68,9 +99,9 @@
         <LinearLayout
             android:id="@+id/lay_bottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="?actionBarSize"
             android:layout_alignParentBottom="true"
-            android:background="@color/Grey"
+            android:background="@color/White"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -81,15 +112,15 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="全选"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_14" />
+                android:textColor="@color/purple_500"
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                android:background="@color/Grey700" />
+                android:background="@color/Grey200" />
 
             <TextView
                 android:id="@+id/tv_delete"
@@ -97,9 +128,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="删除"
-                android:textColor="@color/Amber"
-                android:textSize="14sp" />
+                android:text="删除(1)"
+                android:textColor="@color/Black"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </RelativeLayout>

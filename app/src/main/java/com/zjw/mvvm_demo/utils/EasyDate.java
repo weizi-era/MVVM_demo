@@ -22,6 +22,8 @@ public final class EasyDate {
     public static final String YEAR_MONTH_DAY_CN = "yyyy年MM月dd日";
     public static final String HOUR_MINUTE_SECOND = "HH:mm:ss";
     public static final String HOUR_MINUTE = "HH:mm";
+    public static final String MONTH_DAY_HOUR_MINUTE = "MM月dd日 HH:mm";
+    public static final String YEAR_MONTH_DAY_HOUR_MINUTE = "yyyy年MM月dd日 HH:mm";
     public static final String HOUR_MINUTE_SECOND_CN = "HH时mm分ss秒";
     public static final String YEAR = "yyyy";
     public static final String MONTH = "MM";
@@ -49,6 +51,31 @@ public final class EasyDate {
      */
     public static String getDateTime() {
         return new SimpleDateFormat(STANDARD_TIME, Locale.CHINESE).format(new Date());
+    }
+
+    /**
+     * 根据选择的Date获取标准时间
+     *
+     * @return 例如 2021-07-01 10:35:53
+     */
+    public static String getDateTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        String systemYear = String.valueOf(calendar.get(Calendar.YEAR));
+        String systemMonth = String.valueOf(calendar.get(Calendar.MONTH));
+        String systemDay = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.setTime(date);
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        String month = String.valueOf(calendar.get(Calendar.MONTH));
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+
+        if (systemYear.equals(year) && systemMonth.equals(month) && systemDay.equals(day)) {
+            return new SimpleDateFormat(HOUR_MINUTE, Locale.CHINESE).format(date);
+        } else if (systemYear.equals(year)) {
+            return new SimpleDateFormat(MONTH_DAY_HOUR_MINUTE, Locale.CHINESE).format(date);
+        } else {
+            return new SimpleDateFormat(YEAR_MONTH_DAY_HOUR_MINUTE, Locale.CHINESE).format(date);
+        }
+
     }
 
     /**

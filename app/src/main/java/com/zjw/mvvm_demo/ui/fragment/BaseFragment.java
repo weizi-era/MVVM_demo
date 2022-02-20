@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.zjw.mvvm_demo.utils.PermissionUtils;
@@ -81,6 +82,14 @@ public class BaseFragment extends Fragment {
     protected void jumpActivityFinish(final Class<?> clazz) {
         startActivity(new Intent(context, clazz));
         context.finish();
+    }
+
+    protected void back(Toolbar toolbar) {
+        toolbar.setNavigationOnClickListener(v -> context.onBackPressed());
+    }
+
+    protected void backAndFinish(Toolbar toolbar) {
+        toolbar.setNavigationOnClickListener(v -> context.finish());
     }
 
     /**
@@ -154,5 +163,10 @@ public class BaseFragment extends Fragment {
         intent.setData(Uri.parse("package:" + context.getPackageName()));
         intentActivityResultLauncher.launch(intent);
     }
+
+    public boolean onLongPressed() {
+        return false;
+    }
+
 
 }

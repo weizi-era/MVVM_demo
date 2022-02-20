@@ -84,4 +84,27 @@ public class TodoRepository {
             failed.postValue("200");
         });
     }
+
+    /**
+     * 删除所有待办
+     */
+    public void deleteAll() {
+        Completable delete = BaseApplication.getDatabase().todoDao().deleteAll();
+        CustomDisposable.addDisposable(delete, () -> {
+            Log.d(TAG, "deleteTodo: " + "删除全部成功");
+            failed.postValue("200");
+        });
+    }
+
+
+    /**
+     * 根据uid删除待办
+     */
+    public void deleteById(int uid) {
+        Completable delete = BaseApplication.getDatabase().todoDao().deleteById(uid);
+        CustomDisposable.addDisposable(delete, () -> {
+            Log.d(TAG, "deleteTodo: " + "删除部成功");
+            failed.postValue("200");
+        });
+    }
 }

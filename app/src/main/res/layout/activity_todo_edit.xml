@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="notebook"
-            type="com.zjw.mvvm_demo.db.bean.Notebook" />
+            name="todo"
+            type="com.zjw.mvvm_demo.db.bean.Todo" />
 
         <import type="com.zjw.mvvm_demo.utils.EasyDate"/>
 
@@ -28,18 +28,18 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:foreground="?attr/selectableItemBackground"
-            android:src="@mipmap/ic_edit_return"/>
+            android:src="@mipmap/ic_edit_return" />
 
         <ImageView
             android:id="@+id/edit_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:clickable="false"
             android:foreground="?attr/selectableItemBackground"
-            android:src="@mipmap/ic_gray_ok"/>
+            android:src="@mipmap/ic_gray_ok" />
 
         <LinearLayout
             android:id="@+id/ll_title"
@@ -66,7 +66,7 @@
                 android:focusableInTouchMode="true"
                 android:singleLine="true"
                 android:hint="标题"
-                android:text="@{notebook.title}"
+                android:text="@{todo.title}"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -81,10 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_title"
-            android:background="@drawable/shape_bg_white_radius_12"
-            android:foreground="?attr/selectableItemBackground"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:background="@drawable/shape_bg_white_radius_12"
+            android:foreground="?attr/selectableItemBackground"
             android:paddingLeft="10dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp">
@@ -94,27 +94,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/ic_no_remind"/>
+                android:src="@mipmap/ic_no_remind" />
 
             <TextView
                 android:id="@+id/todo_remind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/iv_remind"
-                android:textSize="18sp"
-                android:text="添加提醒"
                 android:textColor="@color/Deep_Purple"
-                android:layout_marginLeft="20dp" />
+                android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/iv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:foreground="?attr/selectableItemBackground"
                 android:layout_marginEnd="15dp"
-                android:visibility="gone"
-                android:src="@mipmap/ic_delete_time"/>
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@mipmap/ic_delete_time"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -124,10 +123,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_time"
-            android:background="@drawable/shape_bg_white_radius_12"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/shape_bg_white_radius_12"
             android:paddingLeft="10dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp">
@@ -137,28 +136,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/ic_no_import"/>
+                android:src="@mipmap/ic_no_import" />
 
             <TextView
                 android:id="@+id/todo_import"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/iv_import"
-                android:textSize="18sp"
                 android:text="重要"
                 android:textColor="@color/black"
-                android:layout_marginLeft="20dp" />
+                android:textSize="18sp" />
 
-               <Switch
-                   android:id="@+id/switch_import"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentEnd="true"
-                   android:layout_marginEnd="15dp"
-                   android:layout_centerVertical="true"
-                   android:thumb="@drawable/switch_thumb"
-                   android:track="@drawable/switch_track_selector"
-                   tools:ignore="UseSwitchCompatOrMaterialXml" />
+            <Switch
+                android:id="@+id/switch_import"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:checked="@{todo.import}"
+                android:thumb="@drawable/switch_thumb"
+                android:track="@drawable/switch_track_selector"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </RelativeLayout>
 
@@ -187,7 +187,7 @@
                 android:focusableInTouchMode="true"
                 android:inputType="textMultiLine"
                 android:hint="备注"
-                android:text="@{notebook.title}"
+                android:text="@{todo.remark}"
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"

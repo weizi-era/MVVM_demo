@@ -41,7 +41,7 @@ public class NotebookAdapter extends BaseQuickAdapter<Notebook, BaseDataBindingH
                 dataBinding.ivSelect.setVisibility(View.VISIBLE);
             }
 
-            dataBinding.ivSelect.setBackgroundResource(notebook.isChecked() ? R.mipmap.ic_selected : R.mipmap.ic_noselect);
+            dataBinding.ivSelect.setImageResource(notebook.isChecked() ? R.mipmap.ic_selected : R.mipmap.ic_noselect);
 
             bindingHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

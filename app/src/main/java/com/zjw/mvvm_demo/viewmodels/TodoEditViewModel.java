@@ -36,11 +36,4 @@ public class TodoEditViewModel extends BaseViewModel {
         repository.updateTodo(todo);
     }
 
-    /**
-     * 删除待办
-     */
-    public void deleteTodo(Todo todo) {
-        repository.deleteTodo(todo);
-        failed = repository.failed;
-    }
 }
