@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Grey100"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.activity.RemindLocationActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@mipmap/ic_back_black">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="提醒位置"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/edit_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="20dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@mipmap/ic_black_ok"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_search">
+
+            <com.amap.api.maps.MapView
+                android:id="@+id/map_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/ib_zoomin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:foreground="?selectableItemBackground"
+                android:layout_above="@+id/ib_zoomout"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_zoom_in"
+                android:padding="5dp"
+                android:elevation="10dp"
+                android:background="@drawable/shape_zoom_in_map"/>
+
+            <ImageButton
+                android:id="@+id/ib_zoomout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:foreground="?selectableItemBackground"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:padding="5dp"
+                android:elevation="10dp"
+                android:src="@mipmap/ic_zoom_out"
+                android:background="@drawable/shape_zoom_out_map"/>
+
+            <ImageButton
+                android:id="@+id/ib_myLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?selectableItemBackground"
+                android:background="@drawable/shape_mylocation"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/ib_zoomout"
+                android:padding="5dp"
+                android:layout_marginTop="20dp"
+                android:elevation="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/ic_mylocation"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_bg_white_radius_24">
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/ic_search"/>
+
+            <EditText
+                android:id="@+id/et_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="输入地址或在地图上长按选择地点"
+                android:layout_toRightOf="@+id/iv_search"
+                android:layout_toLeftOf="@+id/iv_delete"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:paddingBottom="10dp"
+                android:background="@null" />
+
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+                android:src="@mipmap/ic_delete_time"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

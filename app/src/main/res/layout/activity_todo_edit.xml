@@ -93,15 +93,17 @@
                 android:id="@+id/iv_remind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:src="@mipmap/ic_no_remind" />
 
             <TextView
                 android:id="@+id/todo_remind"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
                 android:layout_toRightOf="@+id/iv_remind"
+                android:layout_toLeftOf="@+id/iv_delete"
                 android:textColor="@color/Deep_Purple"
                 android:textSize="18sp" />
 
@@ -109,6 +111,7 @@
                 android:id="@+id/iv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="15dp"
                 android:foreground="?attr/selectableItemBackground"

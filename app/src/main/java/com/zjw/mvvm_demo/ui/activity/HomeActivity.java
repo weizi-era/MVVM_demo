@@ -292,69 +292,6 @@ public class HomeActivity extends BaseActivity {
         });
     }
 
-//    /**
-//     * 页面返回结果
-//     */
-//    @Override
-//    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode != RESULT_OK) {
-//            showMsg("未知原因");
-//            return;
-//        }
-//        switch (requestCode) {
-//            case PermissionUtils.REQUEST_MANAGE_EXTERNAL_STORAGE_CODE:
-//                //从外部存储管理页面返回
-//                if (!isStorageManager()) {
-//                    showMsg("未打开外部存储管理开关，无法打开相册，抱歉");
-//                    return;
-//                }
-//                if (!hasPermission(PermissionUtils.READ_EXTERNAL_STORAGE)) {
-//                    requestPermission(PermissionUtils.READ_EXTERNAL_STORAGE);
-//                    return;
-//                }
-//                //打开相册
-//                openAlbum();
-//                break;
-//            case SELECT_PHOTO_CODE:
-//                // 修改头像
-//                modifyAvatar(CameraUtils.getImageOnKitKatPath(data, this));
-//                break;
-//            case TAKE_PHOTO_CODE:
-//                //相机中拍照返回
-//                modifyAvatar(isAndroid10() ? mCameraUri.toString() : mCameraImagePath);
-//                break;
-//        }
-//
-//    }
-//
-//    /**
-//     * 权限请求结果
-//     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull  String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        switch (requestCode) {
-//            case PermissionUtils.REQUEST_STORAGE_CODE:
-//                //文件读写权限
-//                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//                    showMsg("您拒绝了读写文件权限，无法打开相册，抱歉。");
-//                    return;
-//                }
-//                openAlbum();
-//                break;
-//            case PermissionUtils.REQUEST_CAMERA_CODE:
-//                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//                    showMsg("您拒绝了相机权限，无法打开相机，抱歉。");
-//                    return;
-//                }
-//                takePicture();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-
     /**
      * 修改头像
      */
@@ -417,45 +354,6 @@ public class HomeActivity extends BaseActivity {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI : MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
         takePictureActivityResultLauncher.launch(mCameraUri);
     }
-
-//    /**
-//     * 调起相机拍照
-//     */
-//    private void openCamera() {
-//        Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        // 判断是否有相机
-//        if (captureIntent.resolveActivity(getPackageManager()) != null) {
-//            File photoFile = null;
-//            Uri photoUri = null;
-//
-//            if (isAndroid10()) {
-//                // 适配android 10 创建图片地址uri,用于保存拍照后的照片 Android 10以后使用这种方法
-//                photoUri = getContentResolver().insert(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) ?
-//                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI : MediaStore.Images.Media.INTERNAL_CONTENT_URI, new ContentValues());
-//            } else {
-//                photoFile = createImageFile();
-//                mCameraImagePath = photoFile.getAbsolutePath();
-//
-//                if (isAndroid7()) {
-//                    //适配Android 7.0文件权限，通过FileProvider创建一个content类型的Uri
-//                    photoUri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", photoFile);
-//                } else {
-//                    photoUri = Uri.fromFile(photoFile);
-//                }
-//            }
-//
-//            mCameraUri = photoUri;
-//            if (photoUri != null) {
-//                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-//                captureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//                startActivityForResult(captureIntent, TAKE_PHOTO_CODE);
-//            }
-//        }
-//    }
-
-//    private File createImageFile() {
-//        return new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "photo");
-//    }
 
     /**
      * 显示可输入文字弹窗

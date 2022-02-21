@@ -1,37 +1,34 @@
 package com.zjw.mvvm_demo.ui.activity;
 
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.graphics.Color;
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.loper7.date_time_picker.DateTimeConfig;
-import com.loper7.date_time_picker.DateTimePicker;
 import com.loper7.date_time_picker.dialog.CardDatePickerDialog;
-import com.loper7.date_time_picker.dialog.CardWeekPickerDialog;
 import com.zjw.mvvm_demo.EditWatcher;
 import com.zjw.mvvm_demo.R;
+import com.zjw.mvvm_demo.SelectPhotoContract;
 import com.zjw.mvvm_demo.databinding.ActivityTodoEditBinding;
 import com.zjw.mvvm_demo.databinding.DialogRemindBinding;
-import com.zjw.mvvm_demo.db.bean.Notebook;
 import com.zjw.mvvm_demo.db.bean.Todo;
 import com.zjw.mvvm_demo.utils.EasyDate;
-import com.zjw.mvvm_demo.utils.SizeUtils;
+import com.zjw.mvvm_demo.utils.PermissionUtils;
 import com.zjw.mvvm_demo.view.dialog.AlertDialog;
 import com.zjw.mvvm_demo.viewmodels.TodoEditViewModel;
 
@@ -51,8 +48,14 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
     private int uid;
     private Todo mTodo;
 
+    /**
+     * 常规使用 通过意图进行跳转
+     */
+    private ActivityResultLauncher<Intent> intentActivityResultLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        register();
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_todo_edit);
 
@@ -213,9 +216,8 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
         binding.rbLocation.setOnCheckedChangeListener((buttonView, isChecked) -> binding.rbTime.setChecked(!isChecked));
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setContentView(binding.getRoot())
-                .addAnimation(R.style.dialog_from_bottom_anim)
                 .setCancelable(false)
-                .setGravity(Gravity.BOTTOM)
+                .fromBottom(true)
                 .setWidthAndHeight(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                 .setOnClickListener(R.id.tv_cancel, new View.OnClickListener() {
                     @Override
@@ -228,13 +230,30 @@ public class TodoEditActivity extends BaseActivity implements View.OnClickListen
                         showDateAndTime();
                     } else if (binding.rbLocation.isChecked()) {
                         remindDialog.dismiss();
-                        Toast.makeText(this, "跳转指定位置", Toast.LENGTH_SHORT).show();
+                        intentActivityResultLauncher.launch(new Intent(TodoEditActivity.this, RemindLocationActivity.class));
                     }
                 });
 
         remindDialog = builder.create();
         remindDialog.show();
 
+    }
+
+    private void register() {
+        intentActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Intent data = result.getData();
+                if (data != null && !TextUtils.isEmpty(data.getStringExtra("location"))) {
+                    binding.todoRemind.setText(data.getStringExtra("location"));
+                    binding.ivDelete.setVisibility(View.VISIBLE);
+                    binding.ivRemind.setImageResource(R.mipmap.ic_remind);
+                } else {
+                    binding.todoRemind.setText("添加提醒");
+                    binding.ivDelete.setVisibility(View.GONE);
+                    binding.ivRemind.setImageResource(R.mipmap.ic_no_remind);
+                }
+            }
+        });
     }
 
     private void showDateAndTime() {
