@@ -80,6 +80,7 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
         viewModel = new ViewModelProvider(this).get(TodoViewModel.class);
         adapter = new TodoAdapter();
         binding.rvTodo.setLayoutManager(new LinearLayoutManager(context));
+
         viewModel.getTodos();
         viewModel.todos.observe(context, todos -> {
             if (todos.size() > 0) {
@@ -159,8 +160,6 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
             adapter.setOnItemLongClickListener(new OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                    //onLongPressed();
-                    Todo todo = (Todo) adapter.getItem(position);
                     binding.tvEdit.setVisibility(View.VISIBLE);
                     ImageView iv_state = view.findViewById(R.id.iv_state);
                     ImageView iv_select = view.findViewById(R.id.iv_select);
@@ -219,7 +218,7 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     private void setAllItemUnchecked() {
         if (adapter == null) return;
         List<Todo> todos = adapter.getData();
-        if (todos != null && todos.size() > 0) {
+        if (todos.size() > 0) {
             for (int i = 0; i < todos.size(); i++) {
                 TodoState todoState = itemSelectedList.get(i);
                 todoState.setSelected(false);
@@ -304,10 +303,5 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
 
         binding.tvDelete.setText("删除");
         cancelDelete();
-    }
-
-    @Override
-    public boolean onLongPressed() {
-        return super.onLongPressed();
     }
 }

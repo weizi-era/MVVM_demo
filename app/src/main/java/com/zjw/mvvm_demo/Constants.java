@@ -51,4 +51,9 @@ public class Constants {
      */
     public static final String TOKEN_VALID_PERIOD = "tokenValidPeriod";
 
+    /**
+     * 笔记页面视图方式
+     */
+    public static final String NOTEBOOK_VIEW_TYPE = "notebookViewType";
+
 }

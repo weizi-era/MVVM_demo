@@ -1,6 +1,5 @@
 package com.zjw.mvvm_demo.ui.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
@@ -23,7 +22,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void animationEnd() {
                 binding.tvMvvm.setVisibility(View.VISIBLE);
-                jumpActivity(MVUtils.getBoolean(Constants.IS_LOGIN) ? MainActivity.class : LoginActivity.class);
+                jumpActivityFinish(MVUtils.getBoolean(Constants.IS_LOGIN) ? MainActivity.class : LoginActivity.class);
             }
         });
     }

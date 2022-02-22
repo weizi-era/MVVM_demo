@@ -12,6 +12,8 @@
     <color name="translucent">#90000000</color>
     <color name="progressbtn_backgroud_color">#0FA9E6</color>
 
+    <color name="search_gray">#EAEAEA</color><!--搜索框灰色-->
+
     <color name="White">#FFFFFF</color>
     <color name="Black">#000000</color>
     <color name="Red">#f44336</color>

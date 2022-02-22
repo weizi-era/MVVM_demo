@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.zjw.mvvm_demo.BaseApplication;
 import com.zjw.mvvm_demo.db.bean.Notebook;
+import com.zjw.mvvm_demo.db.bean.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class NotebookRepository {
     /**
      * 删除笔记
      */
-    public void deleteNotebook(Notebook notebook) {
+    public void deleteNotebook(Notebook... notebook) {
         Completable delete = BaseApplication.getDatabase().notebookDao().delete(notebook);
         CustomDisposable.addDisposable(delete, () -> {
             Log.d(TAG, "deleteNotebook: " + "删除成功");
@@ -85,6 +86,19 @@ public class NotebookRepository {
         });
     }
 
-
-
+    /**
+     * 搜索笔记
+     */
+    public MutableLiveData<List<Notebook>> searchNotebook(String input) {
+        Flowable<List<Notebook>> listFlowable = BaseApplication.getDatabase().notebookDao().searchNotebook(input);
+        CustomDisposable.addDisposable(listFlowable, notebooks -> {
+            if (notebooks.size() > 0) {
+                notebooksMutableLiveData.postValue(notebooks);
+            } else {
+                notebooksMutableLiveData.postValue(emptyList);
+                failed.postValue("暂无数据");
+            }
+        });
+        return notebooksMutableLiveData;
+    }
 }

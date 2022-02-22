@@ -27,7 +27,7 @@ import com.zjw.mvvm_demo.db.dao.WallPaperDao;
 import org.jetbrains.annotations.NotNull;
 
 @Database(entities = {BiYing.class, WallPaper.class, News.class,
-        Video.class, User.class, Notebook.class, Todo.class}, version = 8, exportSchema = false)
+        Video.class, User.class, Notebook.class, Todo.class}, version = 7, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "mvvm_demo";
@@ -59,7 +59,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             .addMigrations(MIGRATION_4_5)
                             .addMigrations(MIGRATION_5_6)
                             .addMigrations(MIGRATION_6_7)
-                            .addMigrations(MIGRATION_7_8)
                             .build();
                 }
             }
@@ -155,19 +154,9 @@ public abstract class AppDatabase extends RoomDatabase {
     };
 
     /**
-     * 版本升级迁移到7 在用户表中新增一个isChecked字段
+     * 版本升级迁移到7 在数据库中新增一个待办表
      */
     static final Migration MIGRATION_6_7 = new Migration(6, 7) {
-        @Override
-        public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE `notebook` ADD COLUMN isChecked INTEGER NOT NULL DEFAULT 0");
-        }
-    };
-
-    /**
-     * 版本升级迁移到8 在数据库中新增一个待办表
-     */
-    static final Migration MIGRATION_7_8 = new Migration(7, 8) {
         @Override
         public void migrate(@NonNull @NotNull SupportSQLiteDatabase database) {
             //创建待办表

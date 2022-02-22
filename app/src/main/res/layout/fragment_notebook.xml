@@ -4,11 +4,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="hasNotebook"
             type="Boolean" />
 
         <import type="android.view.View" />
+
+        <!--是否批量删除-->
+        <variable
+            name="isBatchDeletion"
+            type="Boolean" />
+        
+        <!--是否全选-->
+        <variable
+            name="isAllSelected"
+            type="Boolean" />
+
+        <!--用于加载mipmap中的图标-->
+        <import type="androidx.core.content.ContextCompat"/>
+        <!--R文件-->
+        <import type="com.zjw.mvvm_demo.R"/>
+
+        <!--是否显示输入布局-->
+        <variable
+            name="showSearchLay"
+            type="Boolean" />
+        <!--输入框是否有内容-->
+        <variable
+            name="isSearch"
+            type="Boolean" />
 
     </data>
 
@@ -31,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="全部笔记"
+                android:text="@{isBatchDeletion ? `未选择` : `全部笔记`}"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -42,24 +67,71 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
-                android:text="编辑"
+                android:text="取消"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:visibility="gone" />
 
         </androidx.appcompat.widget.Toolbar>
 
+        <!--搜索笔记布局，有笔记时显示-->
+        <LinearLayout
+            android:id="@+id/lay_search"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/white"
+            android:layout_below="@+id/toolbar"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:visibility="@{showSearchLay ? View.VISIBLE : View.GONE}">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="@drawable/shape_search_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_search" />
+
+                <EditText
+                    android:id="@+id/et_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:background="@null"
+                    android:hint="搜索笔记"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="@dimen/sp_14" />
+
+                <ImageView
+                    android:id="@+id/iv_clear"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_delete_time"
+                    android:visibility="@{isSearch ? View.VISIBLE : View.GONE}" />
+            </RelativeLayout>
+        </LinearLayout>
+
         <!--笔记列表-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_notebook"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/lay_search"
             android:overScrollMode="never"
-            android:paddingStart="8dp"
-            android:visibility="@{hasNotebook ? View.VISIBLE : View.GONE}"
-            android:paddingEnd="8dp"
-            android:paddingTop="8dp" />
+            android:padding="8dp"
+            android:visibility="@{hasNotebook ? View.VISIBLE : View.GONE}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_add_notebook"
@@ -69,6 +141,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
+            android:visibility="@{isBatchDeletion ? View.GONE : View.VISIBLE}"
             android:src="@mipmap/icon_add"
             app:backgroundTint="@color/white"
             tools:ignore="UsingOnClickInXml" />
@@ -100,11 +173,11 @@
         <LinearLayout
             android:id="@+id/lay_bottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="?actionBarSize"
             android:layout_alignParentBottom="true"
-            android:background="@color/Grey"
+            android:background="@color/White"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="@{isBatchDeletion ? View.VISIBLE : View.GONE}">
 
             <TextView
                 android:id="@+id/tv_check_all"
@@ -112,16 +185,16 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="全选"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp_14" />
+                android:text="@{isAllSelected ? `取消全选` : `全选`}"
+                android:textColor="@{isAllSelected ? @color/purple_500 : @color/black}"
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                android:background="@color/Grey700" />
+                android:background="@color/Grey200" />
 
             <TextView
                 android:id="@+id/tv_delete"
@@ -130,8 +203,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="删除"
-                android:textColor="@color/Amber"
-                android:textSize="14sp" />
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </RelativeLayout>

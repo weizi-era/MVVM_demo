@@ -13,14 +13,15 @@ public class Notebook {
     private String content;
     private String date;
     private String time;
-    private boolean isChecked;
+    @Ignore
+    private boolean isSelect; // 是否选中
 
-    public boolean isChecked() {
-        return isChecked;
+    public boolean isSelect() {
+        return isSelect;
     }
 
-    public void setChecked(boolean checked) {
-        isChecked = checked;
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public String getDate() {
@@ -64,12 +65,11 @@ public class Notebook {
     }
 
     @Ignore
-    public Notebook(String title, String content, String date, String time, boolean isChecked) {
+    public Notebook(String title, String content, String date, String time) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.time = time;
-        this.isChecked = isChecked;
     }
 
     public Notebook() {

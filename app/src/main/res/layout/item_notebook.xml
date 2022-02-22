@@ -9,6 +9,19 @@
 
         <import type="android.text.TextUtils"/>
 
+        <!--是否批量删除-->
+        <variable
+            name="isBatchDeletion"
+            type="Boolean" />
+
+        <!--视图，用于控制显示隐藏-->
+        <import type="android.view.View" />
+
+        <!--用于加载mipmap中的图标-->
+        <import type="androidx.core.content.ContextCompat"/>
+        <!--R文件-->
+        <import type="com.zjw.mvvm_demo.R"/>
+
     </data>
 
     <RelativeLayout
@@ -16,7 +29,7 @@
         android:foreground="?attr/selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="4dp"
         android:background="@drawable/shape_bg_white_radius_12"
         android:padding="12dp">
 
@@ -47,8 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:visibility="visible"
-            android:src="@mipmap/ic_noselect"/>
+            android:src="@{notebook.select ? ContextCompat.getDrawable(ivSelect.getContext(),R.mipmap.ic_selected) : ContextCompat.getDrawable(ivSelect.getContext(),R.mipmap.ic_noselect)}"
+            android:visibility="@{isBatchDeletion ? View.VISIBLE : View.GONE}" />
 
     </RelativeLayout>
 

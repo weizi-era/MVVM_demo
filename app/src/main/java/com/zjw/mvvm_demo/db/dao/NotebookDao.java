@@ -30,8 +30,15 @@ public interface NotebookDao {
     Flowable<Notebook> findById(int uid);
 
     @Delete
-    Completable delete(Notebook notebook);
+    Completable delete(Notebook... notebook);
+
+    @Query("DELETE FROM notebook")
+    Completable deleteAll();
 
     @Query("DELETE FROM notebook WHERE uid=:uid")
-    Completable deleteMore(int uid);
+    Completable deleteById(int uid);
+
+    // ||相当于+号
+    @Query("SELECT * FROM notebook WHERE title LIKE '%' || :input || '%' OR content LIKE '%' || :input || '%' ")
+    Flowable<List<Notebook>> searchNotebook(String input);
 }

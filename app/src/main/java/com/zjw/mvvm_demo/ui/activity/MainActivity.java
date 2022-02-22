@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -99,4 +100,24 @@ public class MainActivity extends BaseActivity {
     public void goHome(View view) {
         jumpActivity(HomeActivity.class);
     }
+
+    /**
+     * 退出应用
+     */
+    private long clickTime = 0; //记录第一次点击的时间
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - clickTime) > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                clickTime = System.currentTimeMillis();
+            } else {
+                this.finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

@@ -164,9 +164,4 @@ public class BaseFragment extends Fragment {
         intentActivityResultLauncher.launch(intent);
     }
 
-    public boolean onLongPressed() {
-        return false;
-    }
-
-
 }

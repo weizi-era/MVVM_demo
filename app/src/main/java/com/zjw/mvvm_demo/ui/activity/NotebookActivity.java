@@ -5,6 +5,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.Bundle;
+
 import com.zjw.mvvm_demo.R;
 import com.zjw.mvvm_demo.databinding.ActivityNotebookBinding;
 
@@ -40,6 +41,6 @@ public class NotebookActivity extends BaseActivity {
 
             return true;
         });
-
     }
+
 }
